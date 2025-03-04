@@ -9,19 +9,16 @@ const { Step } = Steps;
 interface ProcessingProgressProps {
     progress: number;
     fileName: string;
+    isProcessing: boolean;  // 新增属性
 }
 
-/**
- * 处理进度组件
- * 展示文件处理的实时进度和状态
- */
-const ProcessingProgress: React.FC<ProcessingProgressProps> = ({ progress, fileName }) => {
+const ProcessingProgress: React.FC<ProcessingProgressProps> = ({ progress, fileName, isProcessing }) => {
     // 定义处理步骤
     const steps = [
-        { title: '上传文件', description: '正在上传Markdown文件' },
-        { title: '解析内容', description: '解析Markdown内容结构' },
-        { title: '转换格式', description: '转换为HTML格式' },
-        { title: '生成文件', description: '生成最终HTML文件' },
+        { title: 'Upload File', description: 'Uploading Markdown file' },
+        { title: 'Parse Content', description: 'Parsing Markdown structure' },
+        { title: 'Convert Format', description: 'Converting to HTML format' },
+        { title: 'Generate File', description: 'Generating final HTML file' },
     ];
 
     // 确定当前处于哪个步骤
@@ -35,8 +32,10 @@ const ProcessingProgress: React.FC<ProcessingProgressProps> = ({ progress, fileN
     const isCompleted = progress >= 100;
     const statusIcon = isCompleted ? (
         <CheckCircleOutlined style={{ fontSize: 24, color: '#52c41a' }} />
-    ) : (
+    ) : isProcessing ? (
         <LoadingOutlined style={{ fontSize: 24 }} spin />
+    ) : (
+        <FileMarkdownOutlined style={{ fontSize: 24 }} />
     );
 
     return (
@@ -45,19 +44,21 @@ const ProcessingProgress: React.FC<ProcessingProgressProps> = ({ progress, fileN
                 <div className="mr-3">{statusIcon}</div>
                 <div>
                     <Title level={5} className="m-0">
-                        {isCompleted ? '处理完成' : '正在处理中...'}
+                        {isCompleted ? '处理完成' : isProcessing ? '正在处理中...' : '已选择文件'}
                     </Title>
                     <Text type="secondary">
                         {isCompleted
-                            ? '您的Markdown文件已成功转换为HTML格式'
-                            : `正在处理: ${fileName}`}
+                            ? 'Your Markdown file has been successfully converted to HTML'
+                            : isProcessing
+                            ? `正在处理: ${fileName}`
+                            : `已选择文件: ${fileName}`}
                     </Text>
                 </div>
             </div>
 
             <Progress
                 percent={progress}
-                status={isCompleted ? "success" : "active"}
+                status={isCompleted ? "success" : (isProcessing ? "active" : "normal")}
                 strokeWidth={8}
             />
 

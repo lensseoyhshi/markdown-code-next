@@ -58,7 +58,7 @@ export default function Home() {
     // 处理文件上传
     const handleUpload = async () => {
         if (!uploadedFile) {
-            messageApi.error('请选择一个Markdown文件');
+            messageApi.error('Please select a Markdown file');
             return;
         }
 
@@ -84,7 +84,7 @@ export default function Home() {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.detail || '上传失败');
+                throw new Error(errorData.detail || 'Upload Failure');
             }
 
             const result = await response.json();
@@ -98,19 +98,19 @@ export default function Home() {
 
                 // 设置进度为100%表示完成
                 setProcessingProgress(100);
-                messageApi.success('文件转换完成！');
+                messageApi.success('Complete！');
                 setIsProcessing(false);
                 setCurrentStep(2);
             } else {
-                throw new Error(result.detail || '文件处理失败');
+                throw new Error(result.detail || 'Failure');
             }
         } catch (error) {
             // 清除进度模拟
             clearInterval(progressInterval);
 
-            console.warn('上传错误:', error);
-            setError(error instanceof Error ? error : new Error('上传失败'));
-            messageApi.error(`上传失败: ${error instanceof Error ? error.message : '请重试'}`);
+            console.warn('Upload error:', error);
+            setError(error instanceof Error ? error : new Error('Upload failed'));
+            messageApi.error(`Upload failed: ${error instanceof Error ? error.message : 'Please try again'}`);
             setIsProcessing(false);
         } finally {
             setIsUploading(false);
@@ -120,7 +120,7 @@ export default function Home() {
     // 处理文件下载
     const handleDownload = async () => {
         if (!outputFilePath) {
-            messageApi.error('没有可下载的文件');
+            messageApi.error('No file available for download');
             return;
         }
 
@@ -131,7 +131,7 @@ export default function Home() {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.detail || '下载失败');
+                throw new Error(errorData.detail || 'Download failed');
             }
 
             const blob = await response.blob();
@@ -152,11 +152,11 @@ export default function Home() {
             window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
 
-            messageApi.success('文件下载成功');
+            messageApi.success('File downloaded successfully');
         } catch (error) {
-            console.warn('下载错误:', error);
-            setError(error instanceof Error ? error : new Error('下载失败'));
-            messageApi.error(`下载失败: ${error instanceof Error ? error.message : '请重试'}`);
+            console.warn('Download error:', error);
+            setError(error instanceof Error ? error : new Error('Download failed'));
+            messageApi.error(`Download failed: ${error instanceof Error ? error.message : 'Please try again'}`);
         }
     };
 
@@ -174,7 +174,7 @@ export default function Home() {
         setUploaderKey(prev => prev + 1);
 
         // 显示提示消息
-        messageApi.success('已重置，请重新选择文件');
+        messageApi.success('Reset complete, please select a new file');
     };
 
     // 重试上传
@@ -191,9 +191,9 @@ export default function Home() {
 
             <div className="text-center mb-8">
                 <Title level={2}>
-                    <FileMarkdownOutlined className="mr-2" /> Markdown 转 HTML 工具
+                    <FileMarkdownOutlined className="mr-2" /> Markdown to HTML Converter
                 </Title>
-                <Text type="secondary">上传Markdown文件，一键转换为HTML格式</Text>
+                <Text type="secondary">Upload Markdown files and convert to HTML format</Text>
             </div>
 
             <Card className="mb-8">
@@ -201,39 +201,28 @@ export default function Home() {
                     current={currentStep}
                     items={[
                         {
-                            title: '选择文件',
-                            icon: currentStep === 0 ? <LoadingOutlined /> : undefined,
+                            title: 'Select File',
+                            icon: currentStep === 0 ? undefined : undefined,
                         },
                         {
-                            title: '处理转换',
+                            title: 'Processing',
                             icon: isProcessing ? <LoadingOutlined /> : undefined,
                         },
                         {
-                            title: '完成下载',
+                            title: 'Complete',
                             icon: currentStep === 2 ? <CheckCircleOutlined /> : undefined,
                         },
                     ]}
                 />
             </Card>
 
-            {error && (
-                <div className="mb-6">
-                    <ErrorHandler
-                        error={error}
-                        onRetry={handleRetry}
-                        showRetry={!outputFilePath}
-                    />
-                </div>
-            )}
-
             <div className="space-y-6">
-                {/* 步骤1：文件上传 */}
                 <Card
-                    title="选择Markdown文件"
+                    title="Select Markdown File"
                     className={currentStep > 0 ? "opacity-60" : ""}
                 >
                     <FileUploader
-                        key={uploaderKey} // 添加key以便重置时强制重新渲染
+                        key={uploaderKey}
                         onFileSelected={handleFileSelected}
                         disabled={isProcessing || currentStep > 0}
                     />
@@ -247,7 +236,7 @@ export default function Home() {
                             disabled={!uploadedFile || isProcessing || currentStep > 0}
                             className="w-full"
                         >
-                            开始转换
+                            Start Convert
                         </Button>
                     </div>
                 </Card>
@@ -257,6 +246,7 @@ export default function Home() {
                     <ProcessingProgress
                         progress={processingProgress}
                         fileName={uploadedFile?.name || ''}
+                        isProcessing = {isUploading}
                     />
                 )}
 
@@ -271,7 +261,7 @@ export default function Home() {
                 {/* 重新开始按钮 */}
                 {(outputFilePath || error) && !isProcessing && (
                     <div className="flex justify-center mt-6">
-                        <Button onClick={resetState}>重新开始</Button>
+                        <Button onClick={resetState}>Start Over</Button>
                     </div>
                 )}
             </div>

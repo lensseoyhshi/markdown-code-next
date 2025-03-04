@@ -31,16 +31,14 @@ const FileUploader: React.FC<FileUploaderProps> = ({
 
     // 上传文件前的验证
     const beforeUpload = (file: RcFile) => {
-        // 验证文件类型
         if (!isMarkdownFile(file.name)) {
-            messageApi.error('请上传Markdown格式的文件 (.md 或 .markdown)');
+            messageApi.error('Please upload a Markdown file (.md or .markdown)');
             return Upload.LIST_IGNORE;
         }
 
-        // 验证文件大小（限制为10MB）
         const isLt10M = file.size / 1024 / 1024 < 10;
         if (!isLt10M) {
-            messageApi.error('文件大小不能超过10MB');
+            messageApi.error('File size cannot exceed 10MB');
             return Upload.LIST_IGNORE;
         }
 
@@ -102,8 +100,8 @@ const FileUploader: React.FC<FileUploaderProps> = ({
                 <p className="ant-upload-drag-icon">
                     <UploadOutlined />
                 </p>
-                <p className="ant-upload-text">点击或拖拽文件到此区域上传</p>
-                <p className="ant-upload-hint">仅支持 .md 和 .markdown 格式文件 (最大10MB)</p>
+                <p className="ant-upload-text">Click or drag file to upload</p>
+                <p className="ant-upload-hint">Only supports .md and .markdown files (max 10MB)</p>
             </Upload.Dragger>
         </div>
     );
