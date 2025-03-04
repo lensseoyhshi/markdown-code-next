@@ -15,10 +15,10 @@ interface ProcessingProgressProps {
 const ProcessingProgress: React.FC<ProcessingProgressProps> = ({ progress, fileName, isProcessing }) => {
     // 定义处理步骤
     const steps = [
-        { title: 'Upload File', description: 'Uploading Markdown file' },
-        { title: 'Parse Content', description: 'Parsing Markdown structure' },
-        { title: 'Convert Format', description: 'Converting to HTML format' },
-        { title: 'Generate File', description: 'Generating final HTML file' },
+        { title: '上传文件', description: '正在上传Markdown文件' },
+        { title: '解析内容', description: '解析Markdown内容结构' },
+        { title: '转换格式', description: '转换为HTML格式' },
+        { title: '生成文件', description: '生成最终HTML文件' },
     ];
 
     // 确定当前处于哪个步骤

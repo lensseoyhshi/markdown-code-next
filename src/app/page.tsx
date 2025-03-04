@@ -11,6 +11,7 @@ import FileUploader from '../components/FileUploader';
 import ProcessingProgress from '../components/ProcessingProgress';
 import ConversionResult from '../components/ConversionResult';
 import ErrorHandler from '../components/ErrorHandler';
+import { usePageLoading } from '../hooks/usePageLoading';
 
 const { Title, Text } = Typography;
 const { Step } = Steps;
@@ -185,86 +186,106 @@ export default function Home() {
         }
     };
 
+    const isLoading = usePageLoading();
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
+
     return (
-        <div className="container mx-auto p-4 max-w-3xl">
+        <article className="container mx-auto p-4 max-w-3xl opacity-0 animate-fade-in">
             {contextHolder}
 
-            <div className="text-center mb-8">
-                <Title level={2}>
-                    <FileMarkdownOutlined className="mr-2" /> Markdown to HTML Converter
-                </Title>
-                <Text type="secondary">Upload Markdown files and convert to HTML format</Text>
-            </div>
+            <header className="text-center mb-8">
+                <h1 className="text-3xl font-bold mb-2">
+                    <FileMarkdownOutlined className="mr-2" /> 
+                    Markdown to HTML Converter
+                </h1>
+                <p className="text-gray-600">
+                    Upload Markdown files and convert to HTML format
+                </p>
+            </header>
 
-            <Card className="mb-8">
-                <Steps
-                    current={currentStep}
-                    items={[
-                        {
-                            title: 'Select File',
-                            icon: currentStep === 0 ? undefined : undefined,
-                        },
-                        {
-                            title: 'Processing',
-                            icon: isProcessing ? <LoadingOutlined /> : undefined,
-                        },
-                        {
-                            title: 'Complete',
-                            icon: currentStep === 2 ? <CheckCircleOutlined /> : undefined,
-                        },
-                    ]}
-                />
-            </Card>
+            <section aria-label="conversion-process" className="space-y-6">
+                <nav aria-label="progress-navigation">
+                    <Card className="mb-8">
+                        <Steps
+                            current={currentStep}
+                            items={[
+                                {
+                                    title: 'Select File',
+                                    icon: currentStep === 0 ? undefined : undefined,
+                                },
+                                {
+                                    title: 'Processing',
+                                    icon: isProcessing ? <LoadingOutlined /> : undefined,
+                                },
+                                {
+                                    title: 'Complete',
+                                    icon: currentStep === 2 ? <CheckCircleOutlined /> : undefined,
+                                },
+                            ]}
+                        />
+                    </Card>
+                </nav>
 
-            <div className="space-y-6">
-                <Card
-                    title="Select Markdown File"
-                    className={currentStep > 0 ? "opacity-60" : ""}
-                >
-                    <FileUploader
-                        key={uploaderKey}
-                        onFileSelected={handleFileSelected}
-                        disabled={isProcessing || currentStep > 0}
-                    />
+                <section aria-label="file-upload" className="mb-6">
+                    <Card
+                        title="Select Markdown File"
+                        className={currentStep > 0 ? "opacity-60" : ""}
+                    >
+                        <FileUploader
+                            key={uploaderKey}
+                            onFileSelected={handleFileSelected}
+                            disabled={isProcessing || currentStep > 0}
+                        />
 
-                    <div className="mt-4">
-                        <Button
-                            type="primary"
-                            size="large"
-                            onClick={handleUpload}
-                            loading={isUploading}
-                            disabled={!uploadedFile || isProcessing || currentStep > 0}
-                            className="w-full"
-                        >
-                            Start Convert
-                        </Button>
-                    </div>
-                </Card>
+                        <div className="mt-4">
+                            <Button
+                                type="primary"
+                                size="large"
+                                onClick={handleUpload}
+                                loading={isUploading}
+                                disabled={!uploadedFile || isProcessing || currentStep > 0}
+                                className="w-full"
+                            >
+                                Start Convert
+                            </Button>
+                        </div>
+                    </Card>
+                </section>
 
-                {/* 步骤2：处理进度 */}
+                {/* Processing Progress Section */}
                 {isProcessing && (
-                    <ProcessingProgress
-                        progress={processingProgress}
-                        fileName={uploadedFile?.name || ''}
-                        isProcessing = {isUploading}
-                    />
+                    <section aria-label="processing-status">
+                        <ProcessingProgress
+                            progress={processingProgress}
+                            fileName={uploadedFile?.name || ''}
+                            isProcessing={isUploading}
+                        />
+                    </section>
                 )}
 
-                {/* 步骤3：下载结果 */}
+                {/* Result Section */}
                 {outputFilePath && !isProcessing && (
-                    <ConversionResult
-                        filePath={outputFilePath}
-                        onDownload={handleDownload}
-                    />
+                    <section aria-label="conversion-result">
+                        <ConversionResult
+                            filePath={outputFilePath}
+                            onDownload={handleDownload}
+                        />
+                    </section>
                 )}
 
-                {/* 重新开始按钮 */}
+                {/* Reset Section */}
                 {(outputFilePath || error) && !isProcessing && (
-                    <div className="flex justify-center mt-6">
+                    <footer className="flex justify-center mt-6">
                         <Button onClick={resetState}>Start Over</Button>
-                    </div>
+                    </footer>
                 )}
-            </div>
-        </div>
+            </section>
+        </article>
     );
 }
