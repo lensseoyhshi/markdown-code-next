@@ -12,6 +12,7 @@ import ProcessingProgress from '../components/ProcessingProgress';
 import ConversionResult from '../components/ConversionResult';
 import ErrorHandler from '../components/ErrorHandler';
 import { usePageLoading } from '../hooks/usePageLoading';
+import { marked } from 'marked';
 
 const { Title, Text } = Typography;
 const { Step } = Steps;
@@ -27,13 +28,20 @@ export default function Home() {
     const [currentStep, setCurrentStep] = useState(0);
     // 用于FileUploader组件的key，重置时更改，强制组件重新渲染
     const [uploaderKey, setUploaderKey] = useState<number>(0);
+    const [outputFileName, setOutputFileName] = useState('');
 
     // 处理文件选择
     const handleFileSelected = (file: RcFile) => {
+        // 添加文件类型校验
+        if (!file.name.toLowerCase().endsWith('.md')) {
+            messageApi.error('仅支持Markdown文件');
+            return false;  // 阻止文件选择
+        }
         setUploadedFile(file);
         setOutputFilePath('');
         setError(null);
         setCurrentStep(0);
+        return false; // Ant Design Upload需要返回boolean
     };
 
     // 模拟进度的函数
@@ -59,7 +67,7 @@ export default function Home() {
     // 处理文件上传
     const handleUpload = async () => {
         if (!uploadedFile) {
-            messageApi.error('Please select a Markdown file');
+            messageApi.error('请选择Markdown文件');
             return;
         }
 
@@ -69,95 +77,72 @@ export default function Home() {
         setError(null);
         setCurrentStep(1);
 
-        // 开始模拟进度
+        // 创建进度模拟器
         const progressInterval = simulateProgress();
 
         try {
-            // 创建FormData对象添加文件
-            const formData = new FormData();
-            formData.append('file', uploadedFile);
+            // 读取文件内容
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const markdownContent = e.target?.result as string;
 
-            // 发送上传请求
-            const response = await fetch('http://localhost:7860/upload', {
-                method: 'POST',
-                body: formData,
-            });
+                // 使用marked转换markdown
+                const htmlContent = marked.parse(markdownContent) as string;
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.detail || 'Upload Failure');
-            }
+                // 生成下载文件名（保持与上传文件名一致，只改扩展名）
+                const originalName = uploadedFile.name;
+                const fileName = originalName.replace(/\.md$/i, '.html');
 
-            const result = await response.json();
+                setOutputFileName(fileName);
 
-            if (result.code === '200') {
-                // 清除进度模拟
-                clearInterval(progressInterval);
+                // 创建可下载的Blob
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
 
-                // 保存输出路径
-                setOutputFilePath(result.out_path);
-
-                // 设置进度为100%表示完成
+                // 更新状态
+                setOutputFilePath(url);
                 setProcessingProgress(100);
-                messageApi.success('Complete！');
+                clearInterval(progressInterval); // 清除进度模拟器
+                messageApi.success('转换完成！');
                 setIsProcessing(false);
                 setCurrentStep(2);
-            } else {
-                throw new Error(result.detail || 'Failure');
-            }
-        } catch (error) {
-            // 清除进度模拟
-            clearInterval(progressInterval);
+            };
 
-            console.warn('Upload error:', error);
-            setError(error instanceof Error ? error : new Error('Upload failed'));
-            messageApi.error(`Upload failed: ${error instanceof Error ? error.message : 'Please try again'}`);
+            reader.readAsText(uploadedFile);
+
+        } catch (error) {
+            console.warn('转换错误:', error);
+            setError(error instanceof Error ? error : new Error('转换失败'));
+            messageApi.error(`转换失败: ${error instanceof Error ? error.message : '请重试'}`);
             setIsProcessing(false);
+            clearInterval(progressInterval); // 确保错误时也清除进度模拟器
         } finally {
             setIsUploading(false);
         }
     };
 
+
     // 处理文件下载
     const handleDownload = async () => {
-        if (!outputFilePath) {
-            messageApi.error('No file available for download');
+        if (!outputFilePath || !outputFileName) {
+            messageApi.error('没有可下载的文件');
             return;
         }
 
         try {
-            const response = await fetch(
-                `http://localhost:7860/get-file?file_path=${encodeURIComponent(outputFilePath)}`
-            );
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.detail || 'Download failed');
-            }
-
-            const blob = await response.blob();
-
-            // 创建下载链接
-            const url = window.URL.createObjectURL(blob);
+            // 直接使用Blob URL下载
             const a = document.createElement('a');
-            a.href = url;
-
-            // 提取文件名
-            const fileName = extractFileName(outputFilePath);
-            a.download = fileName;
-
+            a.style.display = 'none';
+            a.href = outputFilePath;
+            a.download = outputFileName; // 使用设置的输出文件名
             document.body.appendChild(a);
             a.click();
-
-            // 清理
-            window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
 
-            messageApi.success('File downloaded successfully');
+            messageApi.success(`文件"${outputFileName}"下载成功`);
         } catch (error) {
-            console.warn('Download error:', error);
-            setError(error instanceof Error ? error : new Error('Download failed'));
-            messageApi.error(`Download failed: ${error instanceof Error ? error.message : 'Please try again'}`);
+            console.error('下载错误:', error);
+            messageApi.error('下载失败，请重试');
         }
     };
 
@@ -166,6 +151,7 @@ export default function Home() {
         // 清除所有状态
         setUploadedFile(null);
         setOutputFilePath('');
+        setOutputFileName('');  // 清除输出文件名
         setProcessingProgress(0);
         setIsProcessing(false);
         setError(null);
@@ -175,7 +161,7 @@ export default function Home() {
         setUploaderKey(prev => prev + 1);
 
         // 显示提示消息
-        messageApi.success('Reset complete, please select a new file');
+        messageApi.success('已重置，请选择新文件');
     };
 
     // 重试上传
@@ -201,7 +187,7 @@ export default function Home() {
 
             <header className="text-center mb-8">
                 <h1 className="text-3xl font-bold mb-2">
-                    <FileMarkdownOutlined className="mr-2" /> 
+                    <FileMarkdownOutlined className="mr-2" />
                     Markdown to HTML Converter
                 </h1>
                 <p className="text-gray-600">
@@ -274,6 +260,7 @@ export default function Home() {
                     <section aria-label="conversion-result">
                         <ConversionResult
                             filePath={outputFilePath}
+                            fileName={outputFileName} // 传递文件名到结果组件
                             onDownload={handleDownload}
                         />
                     </section>

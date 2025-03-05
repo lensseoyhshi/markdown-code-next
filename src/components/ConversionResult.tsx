@@ -9,6 +9,7 @@ const { Panel } = Collapse;
 
 interface ConversionResultProps {
     filePath: string;
+    fileName?: string; // 新增: 可选的fileName属性，用于显示自定义文件名
     onDownload: () => void;
     isLoading?: boolean;
 }
@@ -18,12 +19,15 @@ interface ConversionResultProps {
  * Display conversion completion information and provide download functionality
  */
 const ConversionResult: React.FC<ConversionResultProps> = ({
-    filePath,
-    onDownload,
-    isLoading = false,
-}) => {
+                                                               filePath,
+                                                               fileName, // 新增: 接收文件名
+                                                               onDownload,
+                                                               isLoading = false,
+                                                           }) => {
     const [copied, setCopied] = useState(false);
-    const fileName = extractFileName(filePath);
+
+    // 使用传入的fileName，如果没有则使用extractFileName提取
+    const displayFileName = fileName || extractFileName(filePath);
 
     const copyFilePath = () => {
         navigator.clipboard.writeText(filePath);
@@ -47,7 +51,6 @@ const ConversionResult: React.FC<ConversionResultProps> = ({
                 <CheckCircleFilled style={{ color: '#52c41a', fontSize: 24 }} className="mr-3" />
                 <Title level={4} className="m-0">Conversion Complete</Title>
             </div>
-
             <Alert
                 message="Success"
                 description="Your Markdown file has been successfully converted to HTML format. Click the button below to download."
@@ -55,12 +58,11 @@ const ConversionResult: React.FC<ConversionResultProps> = ({
                 showIcon
                 className="mb-4"
             />
-
             <div className="mb-4 p-3 bg-gray-50 rounded-md">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center">
                         <FileFilled className="mr-2 text-blue-500" />
-                        <Text strong>{fileName}</Text>
+                        <Text strong>{displayFileName}</Text>
                     </div>
                     <Button
                         type="text"
@@ -72,7 +74,6 @@ const ConversionResult: React.FC<ConversionResultProps> = ({
                     </Button>
                 </div>
             </div>
-
             <Button
                 type="primary"
                 size="large"
@@ -82,14 +83,16 @@ const ConversionResult: React.FC<ConversionResultProps> = ({
             >
                 Download HTML File
             </Button>
-
             <Divider />
-
             <Collapse ghost>
                 <Panel header="File Details" key="1">
                     <Paragraph className="mb-1">
                         <Text strong>File Path: </Text>
                         <Text code>{filePath}</Text>
+                    </Paragraph>
+                    <Paragraph className="mb-1">
+                        <Text strong>File Name: </Text> {/* 添加显示文件名的详细信息 */}
+                        <Text>{displayFileName}</Text>
                     </Paragraph>
                     <Paragraph className="mb-1">
                         <Text strong>Format: </Text>
