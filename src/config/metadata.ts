@@ -4,10 +4,10 @@ export const siteMetadata = {
     description: 'Convert your Markdown files to HTML easily and quickly',
     siteUrl: 'https://www.ai2markdown.com', // 替换为您的实际网站URL
     siteName: 'MD Converter',
-    locale: 'zh-CN',
+    locale: 'en-US',
     type: 'website',
     author: {
-        name: 'Your Name',
+        name: 'ai to markdown',
         url: 'https://www.ai2markdown.com',
     },
     keywords: [
@@ -17,9 +17,11 @@ export const siteMetadata = {
         'markdown to html',
         'online tool',
         'web app',
+        'html to markdown',
+        'markdown converter'
     ],
-    creator: 'Your Name or Company',
-    publisher: 'Your Name or Company',
+    creator: 'aiToMarkdown',
+    publisher: 'ai to markdown',
     formatDetection: {
         email: false,
         address: false,
@@ -38,15 +40,15 @@ export const siteMetadata = {
                 alt: 'Markdown to HTML Converter',
             },
         ],
-        locale: 'zh-CN',
+        locale: 'en-US',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
         title: 'Markdown to HTML Converter',
         description: 'Convert your Markdown files to HTML easily and quickly',
-        creator: '@yourhandle',
-        images: ['https://your-site-url.com/twitter-image.jpg'],
+        creator: '@ai2Markdown',
+        images: ['https://www.ai2markdown.com/twitter-image.jpg'],
     },
     robots: {
         index: true,
