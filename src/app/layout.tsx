@@ -3,11 +3,8 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import { ConfigProvider } from 'antd';
 import enUS from 'antd/locale/en_US';
-
 const inter = Inter({ subsets: ['latin'] });
-
 import 'antd/dist/reset.css';
-
 import { siteMetadata } from '../config/metadata';
 
 export const metadata = {
@@ -18,11 +15,11 @@ export const metadata = {
     },
     description: siteMetadata.description,
     keywords: siteMetadata.keywords,
-    authors: [{ name: siteMetadata.author }],
-    creator: siteMetadata.author,
+    authors: [{ name: siteMetadata.author.name }], // 修改这里，使用author.name
+    creator: siteMetadata.creator,
     openGraph: {
         type: 'website',
-        locale: siteMetadata.language,
+        locale: siteMetadata.locale, // 修改这里，使用locale而不是language
         url: siteMetadata.siteUrl,
         title: siteMetadata.title,
         description: siteMetadata.description,
@@ -32,7 +29,7 @@ export const metadata = {
         card: 'summary_large_image',
         title: siteMetadata.title,
         description: siteMetadata.description,
-        creator: siteMetadata.twitterHandle
+        creator: siteMetadata.twitter?.creator || '@yourhandle' // 添加可选链和默认值
     },
     robots: {
         index: true,
@@ -41,14 +38,14 @@ export const metadata = {
 };
 
 export default function RootLayout({
-                                     children,
+                                       children,
                                    }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" className="loading">
-      <head>
-        <style>{`
+    return (
+        <html lang="en" className="loading">
+        <head>
+            <style>{`
           .loading {
             background-color: #f5f5f5;
           }
@@ -56,10 +53,10 @@ export default function RootLayout({
             transition: all 0.2s;
           }
         `}</style>
-      </head>
-      <body>
+        </head>
+        <body>
         {children}
-      </body>
-    </html>
-  );
+        </body>
+        </html>
+    );
 }
