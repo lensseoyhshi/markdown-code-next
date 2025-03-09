@@ -86,7 +86,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
                         danger
                         onClick={() => handleRemove()}
                     >
-                        移除
+                        Remove
                     </Button>
                 )}
             </div>

@@ -2,8 +2,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Button, Typography, message, Card, Steps, Divider } from 'antd';
-import { FileMarkdownOutlined, LoadingOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { Button, Typography, message, Card, Input } from 'antd';
+import { FileMarkdownOutlined, DownloadOutlined } from '@ant-design/icons';
 import { RcFile } from 'antd/es/upload';
 import { downloadFile } from '../services/api';
 import { extractFileName } from '../utils/file';
@@ -12,10 +12,12 @@ import ProcessingProgress from '../components/ProcessingProgress';
 import ConversionResult from '../components/ConversionResult';
 import ErrorHandler from '../components/ErrorHandler';
 import { usePageLoading } from '../hooks/usePageLoading';
+import { Progress } from 'antd';
+// import { DownloadOutlined } from '@ant-design/icons';
 import { marked } from 'marked';
-
+import { Tabs } from 'antd';
 const { Title, Text } = Typography;
-const { Step } = Steps;
+// const { Step } = Steps;
 
 export default function Home() {
     const [messageApi, contextHolder] = message.useMessage();
@@ -25,23 +27,22 @@ export default function Home() {
     const [isProcessing, setIsProcessing] = useState(false);
     const [uploadedFile, setUploadedFile] = useState<RcFile | null>(null);
     const [error, setError] = useState<Error | null>(null);
-    const [currentStep, setCurrentStep] = useState(0);
-    // 用于FileUploader组件的key，重置时更改，强制组件重新渲染
     const [uploaderKey, setUploaderKey] = useState<number>(0);
     const [outputFileName, setOutputFileName] = useState('');
-
+    const [markdownText, setMarkdownText] = useState('');
+    const [htmlPreview, setHtmlPreview] = useState('');
+    // const [showRawHtml, setShowRawHtml] = useState(false);
     // 处理文件选择
     const handleFileSelected = (file: RcFile) => {
         // 添加文件类型校验
         if (!file.name.toLowerCase().endsWith('.md')) {
-            messageApi.error('仅支持Markdown文件');
-            return false;  // 阻止文件选择
+            messageApi.error('Only Markdown files are supported');
+            return false;  
         }
         setUploadedFile(file);
         setOutputFilePath('');
         setError(null);
-        setCurrentStep(0);
-        return false; // Ant Design Upload需要返回boolean
+        return false;
     };
 
     // 模拟进度的函数
@@ -67,7 +68,7 @@ export default function Home() {
     // 处理文件上传
     const handleUpload = async () => {
         if (!uploadedFile) {
-            messageApi.error('请选择Markdown文件');
+            messageApi.error('Please select a Markdown file');
             return;
         }
 
@@ -75,7 +76,7 @@ export default function Home() {
         setIsProcessing(true);
         setProcessingProgress(0);
         setError(null);
-        setCurrentStep(1);
+        // setCurrentStep(1);
 
         // 创建进度模拟器
         const progressInterval = simulateProgress();
@@ -103,17 +104,17 @@ export default function Home() {
                 setOutputFilePath(url);
                 setProcessingProgress(100);
                 clearInterval(progressInterval); // 清除进度模拟器
-                messageApi.success('转换完成！');
+                messageApi.success('Conversion completed!');
                 setIsProcessing(false);
-                setCurrentStep(2);
+                // setCurrentStep(2);
             };
 
             reader.readAsText(uploadedFile);
 
         } catch (error) {
-            console.warn('转换错误:', error);
-            setError(error instanceof Error ? error : new Error('转换失败'));
-            messageApi.error(`转换失败: ${error instanceof Error ? error.message : '请重试'}`);
+            console.warn('Conversion error:', error);
+            setError(error instanceof Error ? error : new Error('Conversion failed'));
+            messageApi.error(`Conversion failed: ${error instanceof Error ? error.message : 'Please try again'}`);
             setIsProcessing(false);
             clearInterval(progressInterval); // 确保错误时也清除进度模拟器
         } finally {
@@ -125,7 +126,7 @@ export default function Home() {
     // 处理文件下载
     const handleDownload = async () => {
         if (!outputFilePath || !outputFileName) {
-            messageApi.error('没有可下载的文件');
+            messageApi.error('No file available for download');
             return;
         }
 
@@ -139,10 +140,10 @@ export default function Home() {
             a.click();
             document.body.removeChild(a);
 
-            messageApi.success(`文件"${outputFileName}"下载成功`);
+            messageApi.success(`File "${outputFileName}" downloaded successfully`);
         } catch (error) {
-            console.error('下载错误:', error);
-            messageApi.error('下载失败，请重试');
+            console.error('Download error:', error);
+            messageApi.error('Download failed, please try again');
         }
     };
 
@@ -155,13 +156,13 @@ export default function Home() {
         setProcessingProgress(0);
         setIsProcessing(false);
         setError(null);
-        setCurrentStep(0);
+        // setCurrentStep(0);
 
         // 更改key值，强制FileUploader组件重新渲染，清空已选文件
         setUploaderKey(prev => prev + 1);
 
         // 显示提示消息
-        messageApi.success('已重置，请选择新文件');
+        messageApi.success('Reset completed, please select a new file');
     };
 
     // 重试上传
@@ -180,9 +181,22 @@ export default function Home() {
             </div>
         );
     }
+    // 处理 Markdown 文本变化
+    const handleMarkdownChange = async (value: string) => {
+        setMarkdownText(value);
+        try {
+            // 使用 marked.parse 并等待结果
+            const convertedHtml = await Promise.resolve(marked.parse(value || ''));
+            // 确保结果是字符串类型
+            setHtmlPreview(typeof convertedHtml === 'string' ? convertedHtml : '');
+        } catch (error) {
+            console.error('Markdown conversion error:', error);
+            messageApi.error('Conversion failed, please check your Markdown syntax');
+        }
+    };
 
     return (
-        <article className="container mx-auto p-4 max-w-3xl opacity-0 animate-fade-in">
+        <article className="container mx-auto p-4 max-w-6xl opacity-0 animate-fade-in">
             {contextHolder}
 
             <header className="text-center mb-8">
@@ -196,82 +210,140 @@ export default function Home() {
             </header>
 
             <section aria-label="conversion-process" className="space-y-6">
-                <nav aria-label="progress-navigation">
-                    <Card className="mb-8">
-                        <Steps
-                            current={currentStep}
-                            items={[
-                                {
-                                    title: 'Select File',
-                                    icon: currentStep === 0 ? undefined : undefined,
-                                },
-                                {
-                                    title: 'Processing',
-                                    icon: isProcessing ? <LoadingOutlined /> : undefined,
-                                },
-                                {
-                                    title: 'Complete',
-                                    icon: currentStep === 2 ? <CheckCircleOutlined /> : undefined,
-                                },
-                            ]}
-                        />
-                    </Card>
-                </nav>
-
                 <section aria-label="file-upload" className="mb-6">
-                    <Card
-                        title="Select Markdown File"
-                        className={currentStep > 0 ? "opacity-60" : ""}
-                    >
-                        <FileUploader
-                            key={uploaderKey}
-                            onFileSelected={handleFileSelected}
-                            disabled={isProcessing || currentStep > 0}
-                        />
+                    <Card>
+                        <div className="space-y-4">
+                            <FileUploader
+                                key={uploaderKey}
+                                onFileSelected={handleFileSelected}
+                                disabled={isProcessing}
+                            />
 
-                        <div className="mt-4">
-                            <Button
-                                type="primary"
-                                size="large"
-                                onClick={handleUpload}
-                                loading={isUploading}
-                                disabled={!uploadedFile || isProcessing || currentStep > 0}
-                                className="w-full"
-                            >
-                                Start Convert
-                            </Button>
+                            {uploadedFile && !isProcessing && !outputFilePath && (
+                                <div className="flex gap-2">
+                                    <Button
+                                        type="primary"
+                                        onClick={handleUpload}
+                                        loading={isUploading}
+                                        disabled={isProcessing}
+                                        className="flex-1"
+                                        style={{ backgroundColor: '#1677ff', color: 'white', borderColor: '#1677ff' }}
+                                    >
+                                        Start Convert
+                                    </Button>
+                                    {/* <Button 
+                                        onClick={resetState}
+                                        className="flex-none"
+                                        style={{ backgroundColor: '#1677ff', color: 'white', borderColor: '#1677ff' }}
+                                    >
+                                        Reset
+                                    </Button> */}
+                                </div>
+                            )}
+
+                            {isProcessing && (
+                                <div>
+                                    <div className="text-sm text-gray-600 mb-2">
+                                        Processing: {uploadedFile?.name}
+                                    </div>
+                                    <Progress percent={processingProgress} status="active" />
+                                </div>
+                            )}
+
+                            {outputFilePath && (
+                                <Button
+                                    type="primary"
+                                    onClick={handleDownload}
+                                    className="w-full"
+                                    style={{ backgroundColor: '#1677ff', color: 'white', borderColor: '#1677ff' }}
+                                    icon={<DownloadOutlined />}
+                                >
+                                    Download HTML
+                                </Button>
+                            )}
                         </div>
                     </Card>
                 </section>
 
-                {/* Processing Progress Section */}
-                {isProcessing && (
-                    <section aria-label="processing-status">
-                        <ProcessingProgress
-                            progress={processingProgress}
-                            fileName={uploadedFile?.name || ''}
-                            isProcessing={isUploading}
-                        />
-                    </section>
-                )}
-
-                {/* Result Section */}
-                {outputFilePath && !isProcessing && (
-                    <section aria-label="conversion-result">
-                        <ConversionResult
-                            filePath={outputFilePath}
-                            fileName={outputFileName} // 传递文件名到结果组件
-                            onDownload={handleDownload}
-                        />
-                    </section>
-                )}
-
-                {/* Reset Section */}
-                {(outputFilePath || error) && !isProcessing && (
-                    <footer className="flex justify-center mt-6">
-                        <Button onClick={resetState}>Start Over</Button>
-                    </footer>
-                )}
+                {/* 实时预览部分 */}
+                <section className="mt-8">
+                    <Card>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <Tabs
+                                    items={[
+                                        {
+                                            key: 'input',
+                                            label: 'Input Markdown',
+                                            children: (
+                                                <Input.TextArea
+                                                    value={markdownText}
+                                                    onChange={(e) => handleMarkdownChange(e.target?.value as string)}
+                                                    placeholder="Enter Markdown text here..."
+                                                    className="min-h-[600px] font-mono resize-none"
+                                                    style={{ height: '600px', overflowY: 'auto' }}
+                                                />
+                                            )
+                                        },
+                                        // {
+                                        //     key: 'preview',
+                                        //     label: 'Preview',
+                                        //     children: (
+                                        //         <div 
+                                        //             className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 prose prose-slate max-w-none"
+                                        //             style={{ height: '600px' }}
+                                        //             dangerouslySetInnerHTML={{ __html: htmlPreview }}
+                                        //         />
+                                        //     )
+                                        // // },
+                                        // {
+                                        //     key: 'raw',
+                                        //     label: 'Raw HTML',
+                                        //     children: (
+                                        //         <pre 
+                                        //             className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 text-sm"
+                                        //             style={{ height: '600px' }}
+                                        //         >
+                                        //             {htmlPreview}
+                                        //         </pre>
+                                        //     )
+                                        // }
+                                    ]}
+                                />
+                            </div>
+                            <div>
+                                <Tabs
+                                    defaultActiveKey="raw"
+                                    items={[
+                                        {
+                                            key: 'preview',
+                                            label: 'Preview',
+                                            children: (
+                                                <div 
+                                                    className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 prose prose-slate max-w-none"
+                                                    style={{ height: '600px' }}
+                                                    dangerouslySetInnerHTML={{ __html: htmlPreview }}
+                                                />
+                                            )
+                                        },
+                                        {
+                                            key: 'raw',
+                                            label: 'Raw HTML',
+                                            children: (
+                                                <pre 
+                                                    className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 text-sm"
+                                                    style={{ height: '600px' }}
+                                                >
+                                                    {htmlPreview}
+                                                </pre>
+                                            )
+                                        }
+                                    ]}
+                                />
+                            </div>
+                        </div>
+                    </Card>
+                </section>
             </section>
         </article>
     );
