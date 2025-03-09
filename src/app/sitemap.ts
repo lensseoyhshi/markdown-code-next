@@ -6,10 +6,11 @@ const currentDate = new Date();
 
 // 您网站的主要路由
 const routes = [
-    '',           // 首页
-    '/about',     // 关于页面
-    '/contact',   // 联系页面
-    '/markdown',  // Markdown转换器页面
+    '',                    // 首页
+    '/about',             // 关于页面
+    '/contact',           // 联系页面
+    '/markdown',          // Markdown转换器页面
+    '/markdown-to-html',  // 新增的 Markdown 转 HTML 页面
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -17,8 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const routeEntries = routes.map((route) => ({
         url: `${siteMetadata.siteUrl}${route}`,
         lastModified: currentDate,
-        changeFrequency: route === '' ? 'daily' : 'weekly' as 'daily' | 'weekly',
-        priority: route === '' ? 1.0 : 0.8,
+        changeFrequency: (route === '' || route === '/markdown-to-html') ? 'daily' : 'weekly' as 'daily' | 'weekly',
+        priority: (route === '' || route === '/markdown-to-html') ? 1.0 : 0.8,
     }));
 
     return [
