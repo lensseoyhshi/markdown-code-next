@@ -182,11 +182,13 @@ export default function Home() {
         );
     }
     // 处理 Markdown 文本变化
-    const handleMarkdownChange = (value: string) => {
+    const handleMarkdownChange = async (value: string) => {
         setMarkdownText(value);
         try {
-            const convertedHtml = marked.parse(value || '');  // 确保有值传入
-            setHtmlPreview(convertedHtml || '');  // 直接设置字符串，不需要调用 toString
+            // 使用 marked.parse 并等待结果
+            const convertedHtml = await Promise.resolve(marked.parse(value || ''));
+            // 确保结果是字符串类型
+            setHtmlPreview(typeof convertedHtml === 'string' ? convertedHtml : '');
         } catch (error) {
             console.error('Markdown conversion error:', error);
             messageApi.error('Conversion failed, please check your Markdown syntax');
