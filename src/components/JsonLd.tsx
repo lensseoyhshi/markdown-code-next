@@ -1,17 +1,15 @@
-import { siteMetadata } from '../config/metadata';
-
 export default function JsonLd() {
     const jsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'WebApplication',
-        name: siteMetadata.title,
-        description: siteMetadata.description,
-        applicationCategory: 'UtilityApplication',
-        operatingSystem: 'All',
-        offers: {
-            '@type': 'Offer',
-            price: '0',
-            priceCurrency: 'USD'
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Markdown to HTML Converter",
+        "description": "Convert Markdown files to HTML format online",
+        "applicationCategory": "Utility",
+        "operatingSystem": "All",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
         }
     };
 

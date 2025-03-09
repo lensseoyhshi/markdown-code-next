@@ -22,6 +22,7 @@ import { Progress } from 'antd';
 // import { DownloadOutlined } from '@ant-design/icons';
 import { marked } from 'marked';
 import { Tabs } from 'antd';
+import JsonLd from '@/components/JsonLd';
 const { Title, Text } = Typography;
 // const { Step } = Steps;
 
@@ -202,155 +203,158 @@ export default function Home() {
     };
 
     return (
-        <article className="container mx-auto p-4 max-w-6xl opacity-0 animate-fade-in">
-            {contextHolder}
+        <>
+            <JsonLd />
+            <article className="container mx-auto p-4 max-w-6xl opacity-0 animate-fade-in">
+                {contextHolder}
 
-            <header className="text-center mb-8">
-                <h1 className="text-3xl font-bold mb-2">
-                    <FileMarkdownOutlined className="mr-2" />
-                    Markdown to HTML Converter
-                </h1>
-                <p className="text-gray-600">
-                    Upload Markdown files and convert to HTML format
-                </p>
-            </header>
+                <header className="text-center mb-8">
+                    <h1 className="text-3xl font-bold mb-2">
+                        <FileMarkdownOutlined className="mr-2" />
+                        Markdown to HTML Converter
+                    </h1>
+                    <p className="text-gray-600">
+                        Upload Markdown files and convert to HTML format
+                    </p>
+                </header>
 
-            <section aria-label="conversion-process" className="space-y-6">
-                <section aria-label="file-upload" className="mb-6">
-                    <Card>
-                        <div className="space-y-4">
-                            <FileUploader
-                                key={uploaderKey}
-                                onFileSelected={handleFileSelected}
-                                disabled={isProcessing}
-                            />
+                <section aria-label="conversion-process" className="space-y-6">
+                    <section aria-label="file-upload" className="mb-6">
+                        <Card>
+                            <div className="space-y-4">
+                                <FileUploader
+                                    key={uploaderKey}
+                                    onFileSelected={handleFileSelected}
+                                    disabled={isProcessing}
+                                />
 
-                            {uploadedFile && !isProcessing && !outputFilePath && (
-                                <div className="flex gap-2">
+                                {uploadedFile && !isProcessing && !outputFilePath && (
+                                    <div className="flex gap-2">
+                                        <Button
+                                            type="primary"
+                                            onClick={handleUpload}
+                                            loading={isUploading}
+                                            disabled={isProcessing}
+                                            className="flex-1"
+                                            style={{ backgroundColor: '#1677ff', color: 'white', borderColor: '#1677ff' }}
+                                        >
+                                            Start Convert
+                                        </Button>
+                                        {/* <Button 
+                                            onClick={resetState}
+                                            className="flex-none"
+                                            style={{ backgroundColor: '#1677ff', color: 'white', borderColor: '#1677ff' }}
+                                        >
+                                            Reset
+                                        </Button> */}
+                                    </div>
+                                )}
+
+                                {isProcessing && (
+                                    <div>
+                                        <div className="text-sm text-gray-600 mb-2">
+                                            Processing: {uploadedFile?.name}
+                                        </div>
+                                        <Progress percent={processingProgress} status="active" />
+                                    </div>
+                                )}
+
+                                {outputFilePath && (
                                     <Button
                                         type="primary"
-                                        onClick={handleUpload}
-                                        loading={isUploading}
-                                        disabled={isProcessing}
-                                        className="flex-1"
+                                        onClick={handleDownload}
+                                        className="w-full"
                                         style={{ backgroundColor: '#1677ff', color: 'white', borderColor: '#1677ff' }}
+                                        icon={<DownloadOutlined />}
                                     >
-                                        Start Convert
+                                        Download HTML
                                     </Button>
-                                    {/* <Button 
-                                        onClick={resetState}
-                                        className="flex-none"
-                                        style={{ backgroundColor: '#1677ff', color: 'white', borderColor: '#1677ff' }}
-                                    >
-                                        Reset
-                                    </Button> */}
-                                </div>
-                            )}
+                                )}
+                            </div>
+                        </Card>
+                    </section>
 
-                            {isProcessing && (
+                    {/* 实时预览部分 */}
+                    <section className="mt-8">
+                        <Card>
+                            <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <div className="text-sm text-gray-600 mb-2">
-                                        Processing: {uploadedFile?.name}
-                                    </div>
-                                    <Progress percent={processingProgress} status="active" />
+                                    <Tabs
+                                        items={[
+                                            {
+                                                key: 'input',
+                                                label: 'Input Markdown',
+                                                children: (
+                                                    <Input.TextArea
+                                                        value={markdownText}
+                                                        onChange={(e) => handleMarkdownChange(e.target?.value as string)}
+                                                        placeholder="Enter Markdown text here..."
+                                                        className="min-h-[600px] font-mono resize-none"
+                                                        style={{ height: '600px', overflowY: 'auto' }}
+                                                    />
+                                                )
+                                            },
+                                            // {
+                                            //     key: 'preview',
+                                            //     label: 'Preview',
+                                            //     children: (
+                                            //         <div 
+                                            //             className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 prose prose-slate max-w-none"
+                                            //             style={{ height: '600px' }}
+                                            //             dangerouslySetInnerHTML={{ __html: htmlPreview }}
+                                            //         />
+                                            //     )
+                                            // // },
+                                            // {
+                                            //     key: 'raw',
+                                            //     label: 'Raw HTML',
+                                            //     children: (
+                                            //         <pre 
+                                            //             className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 text-sm"
+                                            //             style={{ height: '600px' }}
+                                            //         >
+                                            //             {htmlPreview}
+                                            //         </pre>
+                                            //     )
+                                            // }
+                                        ]}
+                                    />
                                 </div>
-                            )}
-
-                            {outputFilePath && (
-                                <Button
-                                    type="primary"
-                                    onClick={handleDownload}
-                                    className="w-full"
-                                    style={{ backgroundColor: '#1677ff', color: 'white', borderColor: '#1677ff' }}
-                                    icon={<DownloadOutlined />}
-                                >
-                                    Download HTML
-                                </Button>
-                            )}
-                        </div>
-                    </Card>
-                </section>
-
-                {/* 实时预览部分 */}
-                <section className="mt-8">
-                    <Card>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <Tabs
-                                    items={[
-                                        {
-                                            key: 'input',
-                                            label: 'Input Markdown',
-                                            children: (
-                                                <Input.TextArea
-                                                    value={markdownText}
-                                                    onChange={(e) => handleMarkdownChange(e.target?.value as string)}
-                                                    placeholder="Enter Markdown text here..."
-                                                    className="min-h-[600px] font-mono resize-none"
-                                                    style={{ height: '600px', overflowY: 'auto' }}
-                                                />
-                                            )
-                                        },
-                                        // {
-                                        //     key: 'preview',
-                                        //     label: 'Preview',
-                                        //     children: (
-                                        //         <div 
-                                        //             className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 prose prose-slate max-w-none"
-                                        //             style={{ height: '600px' }}
-                                        //             dangerouslySetInnerHTML={{ __html: htmlPreview }}
-                                        //         />
-                                        //     )
-                                        // // },
-                                        // {
-                                        //     key: 'raw',
-                                        //     label: 'Raw HTML',
-                                        //     children: (
-                                        //         <pre 
-                                        //             className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 text-sm"
-                                        //             style={{ height: '600px' }}
-                                        //         >
-                                        //             {htmlPreview}
-                                        //         </pre>
-                                        //     )
-                                        // }
-                                    ]}
-                                />
+                                <div>
+                                    <Tabs
+                                        defaultActiveKey="raw"
+                                        items={[
+                                            {
+                                                key: 'preview',
+                                                label: 'Preview',
+                                                children: (
+                                                    <div 
+                                                        className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 prose prose-slate max-w-none"
+                                                        style={{ height: '600px' }}
+                                                        dangerouslySetInnerHTML={{ __html: htmlPreview }}
+                                                    />
+                                                )
+                                            },
+                                            {
+                                                key: 'raw',
+                                                label: 'Raw HTML',
+                                                children: (
+                                                    <pre 
+                                                        className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 text-sm"
+                                                        style={{ height: '600px' }}
+                                                    >
+                                                        {htmlPreview}
+                                                    </pre>
+                                                )
+                                            }
+                                        ]}
+                                    />
+                                </div>
                             </div>
-                            <div>
-                                <Tabs
-                                    defaultActiveKey="raw"
-                                    items={[
-                                        {
-                                            key: 'preview',
-                                            label: 'Preview',
-                                            children: (
-                                                <div 
-                                                    className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 prose prose-slate max-w-none"
-                                                    style={{ height: '600px' }}
-                                                    dangerouslySetInnerHTML={{ __html: htmlPreview }}
-                                                />
-                                            )
-                                        },
-                                        {
-                                            key: 'raw',
-                                            label: 'Raw HTML',
-                                            children: (
-                                                <pre 
-                                                    className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 text-sm"
-                                                    style={{ height: '600px' }}
-                                                >
-                                                    {htmlPreview}
-                                                </pre>
-                                            )
-                                        }
-                                    ]}
-                                />
-                            </div>
-                        </div>
-                    </Card>
+                        </Card>
+                    </section>
                 </section>
-            </section>
-        </article>
+            </article>
+        </>
     );
 }
