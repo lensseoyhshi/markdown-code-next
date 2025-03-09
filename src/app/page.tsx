@@ -162,7 +162,7 @@ export default function Home() {
         setUploaderKey(prev => prev + 1);
 
         // 显示提示消息
-        messageApi.success('已重置，请选择新文件');
+        messageApi.success('Reset completed, please select a new file');
     };
 
     // 重试上传
@@ -185,11 +185,11 @@ export default function Home() {
     const handleMarkdownChange = (value: string) => {
         setMarkdownText(value);
         try {
-            const convertedHtml = marked.parse(value);
-            setHtmlPreview(convertedHtml);
+            const convertedHtml = marked.parse(value || '');  // 确保有值传入
+            setHtmlPreview(convertedHtml || '');  // 直接设置字符串，不需要调用 toString
         } catch (error) {
-            console.error('Markdown 转换错误:', error);
-            messageApi.error('转换失败，请检查 Markdown 语法');
+            console.error('Markdown conversion error:', error);
+            messageApi.error('Conversion failed, please check your Markdown syntax');
         }
     };
 
@@ -276,7 +276,7 @@ export default function Home() {
                                             children: (
                                                 <Input.TextArea
                                                     value={markdownText}
-                                                    onChange={(e) => handleMarkdownChange(e.target.value)}
+                                                    onChange={(e) => handleMarkdownChange(e.target?.value as string)}
                                                     placeholder="Enter Markdown text here..."
                                                     className="min-h-[600px] font-mono resize-none"
                                                     style={{ height: '600px', overflowY: 'auto' }}
