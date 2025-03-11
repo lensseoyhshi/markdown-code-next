@@ -1,11 +1,12 @@
 // src/app/layout.tsx
 import './globals.css';
-import { Inter } from 'next/font/google';
-import { ConfigProvider } from 'antd';
+import {Inter} from 'next/font/google';
+import {ConfigProvider} from 'antd';
 import enUS from 'antd/locale/en_US';
-const inter = Inter({ subsets: ['latin'] });
+
+const inter = Inter({subsets: ['latin']});
 import 'antd/dist/reset.css';
-import { siteMetadata } from '../config/metadata';
+import {siteMetadata} from '../config/metadata';
 
 export const metadata = {
     metadataBase: new URL(siteMetadata.siteUrl),
@@ -15,7 +16,7 @@ export const metadata = {
     },
     description: siteMetadata.description,
     keywords: siteMetadata.keywords,
-    authors: [{ name: siteMetadata.author.name }], // 修改这里，使用author.name
+    authors: [{name: siteMetadata.author.name}], // 修改这里，使用author.name
     creator: siteMetadata.creator,
     openGraph: {
         type: 'website',
@@ -53,6 +54,10 @@ export default function RootLayout({
             transition: all 0.2s;
           }
         `}</style>
+            <link rel="icon" href="/favicon.ico" sizes="any" />
+            <link rel="icon" href="/Logo.svg" type="image/svg+xml" />
+            <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+            <meta name="theme-color" content="#4A90E2" />
         </head>
         <body>
         {children}
