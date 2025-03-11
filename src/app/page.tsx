@@ -333,7 +333,7 @@ export default function Home() {
                             </p>
                             <p>
                                 Markdown is widely used for documentation, README files, forum posts, and technical writing.
-                                It's supported by many platforms including GitHub, Stack Overflow, Reddit, and numerous content management systems.
+                                It&apos;s supported by many platforms including GitHub, Stack Overflow, Reddit, and numerous content management systems.
                             </p>
                             <h3>Why Use Our Markdown to HTML Converter?</h3>
                             <ul>
@@ -355,7 +355,7 @@ export default function Home() {
                                 <h3 className="text-lg font-bold">What is Markdown?</h3>
                                 <p className="text-gray-600">
                                     Markdown is a lightweight markup language that you can use to add formatting elements to plaintext text documents.
-                                    Created by John Gruber in 2004, Markdown is now one of the world's most popular markup languages.
+                                    Created by John Gruber in 2004, Markdown is now one of the world&apos;s most popular markup languages.
                                 </p>
                             </div>
                             <div>
@@ -375,7 +375,7 @@ export default function Home() {
                             <div>
                                 <h3 className="text-lg font-bold">Do you store my Markdown files?</h3>
                                 <p className="text-gray-600">
-                                    No, all conversion happens in your browser. We don't store or process your files on our servers.
+                                    No, all conversion happens in your browser. We don&apos;t store or process your files on our servers.
                                     Your content remains private and secure, never leaving your computer.
                                 </p>
                             </div>

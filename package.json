@@ -16,6 +16,7 @@
     "@types/react-dom": "18.2.19",
     "antd": "^5.24.3",
     "autoprefixer": "10.4.18",
+    "build": "^0.1.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "eslint": "8.50.0",
