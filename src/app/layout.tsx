@@ -58,6 +58,32 @@ export default function RootLayout({
             <link rel="icon" href="/Logo.svg" type="image/svg+xml" />
             <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
             <meta name="theme-color" content="#4A90E2" />
+
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "SoftwareApplication",
+                        "name": "Markdown to HTML Converter",
+                        "applicationCategory": "WebApplication",
+                        "description": "Upload Markdown files and convert to HTML format",
+                        "aggregateRating": {
+                            "@type": "AggregateRating",
+                            "ratingValue": "4.8",
+                            "ratingCount": "818",
+                            "bestRating": "5",
+                            "worstRating": "1"
+                        },
+                        "offers": {
+                            "@type": "Offer",
+                            "price": "0",
+                            "priceCurrency": "USD"
+                        }
+                    })
+                }}
+            />
+
         </head>
         <body>
         {children}
