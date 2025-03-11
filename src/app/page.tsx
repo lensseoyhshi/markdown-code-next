@@ -410,14 +410,14 @@ export default function Home() {
                                     <li><a href="https://www.w3schools.com/html/" className="text-blue-500 hover:underline">W3Schools HTML Tutorial</a></li>
                                 </ul>
                             </div>
-                            <div className="border p-4 rounded">
-                                <h3 className="font-bold mb-2">Other Tools</h3>
-                                <ul className="space-y-1">
-                                    <li><a href="/html-to-markdown" className="text-blue-500 hover:underline">HTML to Markdown Converter</a></li>
-                                    <li><a href="/markdown-editor" className="text-blue-500 hover:underline">Online Markdown Editor</a></li>
-                                    <li><a href="/html-validator" className="text-blue-500 hover:underline">HTML Validator</a></li>
-                                </ul>
-                            </div>
+                            {/*<div className="border p-4 rounded">*/}
+                            {/*    <h3 className="font-bold mb-2">Other Tools</h3>*/}
+                            {/*    <ul className="space-y-1">*/}
+                            {/*        <li><a href="/html-to-markdown" className="text-blue-500 hover:underline">HTML to Markdown Converter</a></li>*/}
+                            {/*        <li><a href="/markdown-editor" className="text-blue-500 hover:underline">Online Markdown Editor</a></li>*/}
+                            {/*        <li><a href="/html-validator" className="text-blue-500 hover:underline">HTML Validator</a></li>*/}
+                            {/*    </ul>*/}
+                            {/*</div>*/}
                         </div>
                     </Card>
                 </section>
