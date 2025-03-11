@@ -29,7 +29,7 @@ export default function MarkdownBasics() {
             {/* 其他语法章节 */}
 
             <h2>Converting Markdown to HTML</h2>
-            <p>Once you've written your content in Markdown, you'll often need to convert it to HTML for use on websites...</p>
+            <p>Once you&apos;ve written your content in Markdown, you&apos;ll often need to convert it to HTML for use on websites...</p>
             <p><a href="/" className="font-medium">Try our Markdown to HTML converter</a> to instantly transform your Markdown content into clean HTML.</p>
 
             <div className="border-t mt-12 pt-6">

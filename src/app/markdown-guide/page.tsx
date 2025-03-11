@@ -71,7 +71,7 @@ export default function MarkdownGuide() {
                     <li><Text strong>Portability:</Text> Markdown files are just text and can be opened with any text
                         editor
                     </li>
-                    <li><Text strong>Future-proof:</Text> Even if your Markdown processor becomes obsolete, you'll still
+                    <li><Text strong>Future-proof:</Text> Even if your Markdown processor becomes obsolete, you&apos;ll still
                         be able to read your Markdown files
                     </li>
                     <li><Text strong>Versatility:</Text> Markdown can be converted to many output formats, not just HTML
@@ -274,7 +274,7 @@ URLs and emails:
 
                 <Title level={3} id="tables">Tables</Title>
                 <Paragraph>
-                    To add a table, use three or more hyphens (---) to create each column's header, and use pipes (|) to
+                    To add a table, use three or more hyphens (---) to create each column&apos;s header, and use pipes (|) to
                     separate columns.
                 </Paragraph>
                 <MarkdownExample
@@ -348,10 +348,10 @@ URLs and emails:
                     Footnotes allow you to add notes and references without cluttering the body of the document.
                 </Paragraph>
                 <MarkdownExample
-                    markdown={`Here's a sentence with a footnote. [^1]
+                    markdown={`Here&apos;s a sentence with a footnote. [^1]
 
 [^1]: This is the footnote.`}
-                    html={`<p>Here's a sentence with a footnote. <sup id="fnref:1"><a href="#fn:1">1</a></sup></p>
+                    html={`<p>Here&apos;s a sentence with a footnote. <sup id="fnref:1"><a href="#fn:1">1</a></sup></p>
 <div class="footnotes">
   <hr>
   <ol>
@@ -395,7 +395,7 @@ URLs and emails:
 
                 <Title level={2} id="convert-to-html">Converting Markdown to HTML</Title>
                 <Paragraph>
-                    Once you've written your content in Markdown, you'll often need to convert it to HTML for use on
+                    Once you&apos;ve written your content in Markdown, you&apos;ll often need to convert it to HTML for use on
                     websites or blogs.
                     Our <Link href="/" className="text-blue-500 hover:underline">Markdown to HTML converter</Link> makes
                     this process quick and easy:
