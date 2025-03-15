@@ -1,37 +1,40 @@
 // config/metadata.ts
 export const siteMetadata = {
-    title: 'Markdown to HTML Converter',
-    description: 'Convert your Markdown files to HTML easily and quickly',
+    title: 'Free Markdown to HTML Converter - Ai2Markdown Pro',
+    description: 'Ai2Markdown Can Convert Your Markdown to HTML with AI-Powered Precision | Real-Time Preview & GitHub-Style Export',
     siteUrl: 'https://www.ai2markdown.com', // 替换为您的实际网站URL
-    siteName: 'MD Converter',
+    siteName: 'AI to markdown',
     locale: 'en-US',
     type: 'website',
     author: {
-        name: 'ai to markdown',
+        name: 'AI to markdown',
         url: 'https://www.ai2markdown.com',
     },
     keywords: [
         'markdown',
-        'html',
+        'md',
         'converter',
         'markdown to html',
         'online tool',
+        'free',
         'web app',
-        'html to markdown',
-        'markdown converter'
+        'md to html',
+        'html generator',
+        'markdown converter',
+        'markdown syntax',
     ],
-    creator: 'aiToMarkdown',
-    publisher: 'ai to markdown',
+    creator: 'AI To Markdown',
+    publisher: 'AI to markdown',
     formatDetection: {
         email: false,
         address: false,
         telephone: false,
     },
     openGraph: {
-        title: 'Markdown to HTML Converter',
-        description: 'Convert your Markdown files to HTML easily and quickly',
+        title: 'Free Markdown to HTML Converter - Ai2Markdown Pro',
+        description: 'Ai2Markdown Can Convert Your Markdown to HTML with AI-Powered Precision | Real-Time Preview & GitHub-Style Export',
         url: 'https://www.ai2markdown.com',
-        siteName: 'MD Converter',
+        siteName: 'AI to markdown',
         images: [
             {
                 url: 'https://www.ai2markdown.com/og-image.jpg',

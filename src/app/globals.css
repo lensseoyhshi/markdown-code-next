@@ -91,3 +91,11 @@ body {
 .pulse {
   animation: pulse 1.5s infinite;
 }
+
+.loading {
+    background-color: #f5f5f5;
+}
+
+.loading * {
+    transition: all 0.2s;
+}

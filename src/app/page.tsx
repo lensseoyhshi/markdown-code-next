@@ -1,6 +1,5 @@
 // src/app/page.tsx
 'use client';
-
 import { useState, useEffect } from 'react';
 import { Button, Typography, message, Card, Input, Divider } from 'antd';
 import { FileMarkdownOutlined, DownloadOutlined, CheckCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
@@ -11,10 +10,13 @@ import FileUploader from '../components/FileUploader';
 import ProcessingProgress from '../components/ProcessingProgress';
 import ConversionResult from '../components/ConversionResult';
 import ErrorHandler from '../components/ErrorHandler';
+import FAQSection from '../components/FAQSection';
 import { usePageLoading } from '../hooks/usePageLoading';
 import { Progress } from 'antd';
 import { marked } from 'marked';
 import { Tabs } from 'antd';
+import { defaultMarkdown } from '../config/faq';
+
 import Link from 'next/link';
 const { Title, Text, Paragraph } = Typography;
 
@@ -28,8 +30,14 @@ export default function Home() {
     const [error, setError] = useState<Error | null>(null);
     const [uploaderKey, setUploaderKey] = useState<number>(0);
     const [outputFileName, setOutputFileName] = useState('');
-    const [markdownText, setMarkdownText] = useState('');
+    const [markdownText, setMarkdownText] = useState(defaultMarkdown);
     const [htmlPreview, setHtmlPreview] = useState('');
+
+    useEffect(() => {
+        const initialHtml = marked.parse(defaultMarkdown);
+        // 确保 initialHtml 是字符串类型
+        setHtmlPreview(typeof initialHtml === 'string' ? initialHtml : '');
+    }, []);
 
     // 处理文件选择
     const handleFileSelected = (file: RcFile) => {
@@ -199,25 +207,42 @@ export default function Home() {
             <header className="text-center mb-8">
                 <h1 className="text-3xl font-bold mb-2">
                     <FileMarkdownOutlined className="mr-2" />
-                    Markdown to HTML Converter: Easy Online Conversion
+                    AI-Powered Markdown to HTML Online Converter 
                 </h1>
                 <p className="text-gray-600 mb-4">
-                    Upload Markdown files and instantly convert to clean, valid HTML format. Free to use, no registration required.
+                    Real-time Preview, File Upload Support, Free To Use, No Registration Required.
                 </p>
-
-                {/* 添加关键特性列表，有助于SEO */}
-                <div className="flex justify-center flex-wrap gap-4 mb-4 text-sm">
-                    <span className="flex items-center"><CheckCircleOutlined className="text-green-500 mr-1" /> Real-time Preview</span>
-                    <span className="flex items-center"><CheckCircleOutlined className="text-green-500 mr-1" /> Free &amp; Secure</span>
-                    <span className="flex items-center"><CheckCircleOutlined className="text-green-500 mr-1" /> No Registration</span>
-                    <span className="flex items-center"><CheckCircleOutlined className="text-green-500 mr-1" /> Instant Download</span>
-                </div>
             </header>
 
+            {/* 目录导航 */}
+            {/* <nav className="mb-8">
+                <div className="flex flex-wrap gap-2 justify-center">
+                    <a href="#convert" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors">
+                        Convert MD File
+                    </a>
+                    <a href="#editor" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors">
+                        Real-time Editor
+                    </a>
+                    <a href="#syntax" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors">
+                        Popular Syntax
+                    </a>
+                    <a href="#advanced" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors">
+                        Advanced Syntax
+                    </a>
+                    <a href="#faq" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors">
+                        FAQ
+                    </a>
+                    <a href="#resources" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors">
+                        Resources
+                    </a>
+                </div>
+            </nav> */}
+
             <section aria-label="conversion-process" className="space-y-6">
+                <h2 className="text-2xl font-bold mb-4" id="convert">Convert MD File To HTML File</h2>
                 <section aria-label="file-upload" className="mb-6">
-                    <Card title="Upload and Convert Your Markdown File">
-                        <div className="space-y-4">
+                    <Card style={{ minHeight: '75px', padding: '12px' }}>
+                        <div className="space-y-1">
                             <FileUploader
                                 key={uploaderKey}
                                 onFileSelected={handleFileSelected}
@@ -225,7 +250,7 @@ export default function Home() {
                             />
 
                             {uploadedFile && !isProcessing && !outputFilePath && (
-                                <div className="flex gap-2">
+                                <div className="flex gap-1 mt-1">
                                     <Button
                                         type="primary"
                                         onClick={handleUpload}
@@ -265,7 +290,8 @@ export default function Home() {
 
                 {/* 实时预览部分 */}
                 <section className="mt-8">
-                    <Card title="Online Markdown Editor with Real-time HTML Preview">
+                    <h2 className="text-2xl font-bold mb-4" id="editor">MD To HTML Real-time Editor</h2>
+                    <Card>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                             <div>
                                 <Tabs
@@ -275,7 +301,7 @@ export default function Home() {
                                             label: 'Input Markdown',
                                             children: (
                                                 <div>
-                                                    <p className="mb-2 text-gray-600">Type or paste your Markdown text below:</p>
+                                                    {/* <p className="mb-2 text-gray-600">Type or paste your Markdown text below:</p> */}
                                                     <Input.TextArea
                                                         value={markdownText}
                                                         onChange={(e) => handleMarkdownChange(e.target?.value as string)}
@@ -291,11 +317,11 @@ export default function Home() {
                             </div>
                             <div>
                                 <Tabs
-                                    defaultActiveKey="preview"
+                                    defaultActiveKey="raw"
                                     items={[
                                         {
                                             key: 'preview',
-                                            label: 'HTML Preview',
+                                            label: 'Preview',
                                             children: (
                                                 <div
                                                     className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 prose prose-slate max-w-none"
@@ -306,7 +332,7 @@ export default function Home() {
                                         },
                                         {
                                             key: 'raw',
-                                            label: 'Raw HTML Code',
+                                            label: 'Raw HTML',
                                             children: (
                                                 <pre
                                                     className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 text-sm"
@@ -323,76 +349,108 @@ export default function Home() {
                     </Card>
                 </section>
 
-                {/* 新增：关于Markdown的简介 */}
+         
+
+                {/* Markdown 语法部分 */}
                 <section className="mt-8">
-                    <Card title="About Markdown">
+                    <h2 className="text-2xl font-bold mb-4" id="syntax">Popular Markdown Syntax</h2>
+                    <Card>
                         <div className="prose prose-slate max-w-none">
-                            <p>
-                                <strong>Markdown</strong> is a lightweight markup language created by John Gruber in 2004. It allows you to write using an easy-to-read,
-                                easy-to-write plain text format, which then converts to structurally valid HTML.
-                            </p>
-                            <p>
-                                Markdown is widely used for documentation, README files, forum posts, and technical writing.
-                                It&apos;s supported by many platforms including GitHub, Stack Overflow, Reddit, and numerous content management systems.
-                            </p>
-                            <h3>Why Use Our Markdown to HTML Converter?</h3>
-                            <ul>
-                                <li><strong>Fast and Efficient</strong> - Instant conversion with no server delays</li>
-                                <li><strong>Privacy-Focused</strong> - All processing happens in your browser, no data sent to servers</li>
-                                <li><strong>Real-time Preview</strong> - See exactly how your HTML will look as you type</li>
-                                <li><strong>Easy Download</strong> - Get your HTML file with one click</li>
-                                <li><strong>No Installation Required</strong> - Works on any modern browser</li>
-                            </ul>
+
+                        <Title level={3} id="line-breaks">Line Breaks</Title>
+                            <Paragraph>
+                                To create a new line, end a line with two or more spaces, and then press Enter.
+                            </Paragraph>
+
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div className="bg-gray-50 p-4 rounded border font-mono">
+{`This is the first line. And this is the second line.`}
+                                </div>
+                                <div 
+                                    className="bg-white p-4 rounded border prose prose-slate max-w-none"
+                                    dangerouslySetInnerHTML={{
+                                        __html: marked.parse(`<p>This is the first line.<br>
+And this is the second line.</p>`)
+                                    }}
+                                />
+                            </div>
+
+                            <Title level={3} id="headings">Underline</Title>
+                            <Paragraph>
+                            While Markdown doesn&apos;t natively support underlines, you can use HTML&apos;s tag. Below is a bilingual example.
+                            </Paragraph>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">  
+  <div className="bg-gray-50 p-4 rounded border font-mono">  
+    {`Use <u>HTML tags</u> in Markdown for underlines`}  
+  </div>  
+  <div className="bg-white p-4 rounded border prose prose-slate max-w-none">  
+    <p>Use <u>HTML tags</u> in Markdown for underlines</p>  
+  </div>  
+</div>  
+
+                            <Title level={3} id="emphasis">Text Bold</Title>
+                            <Paragraph>
+                                You can add emphasis by making text bold or italic.
+                            </Paragraph>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div className="bg-gray-50 p-4 rounded border font-mono">
+{`*This text is italic*
+_This is also italic_
+
+**This text is bold**
+__This is also bold__
+
+***This text is bold and italic***
+**_This is also bold and italic_**`}
+                                </div>
+                                <div 
+                                    className="bg-white p-4 rounded border prose prose-slate max-w-none"
+                                    dangerouslySetInnerHTML={{
+                                        __html: marked.parse(`*This text is italic*
+_This is also italic_
+
+**This text is bold**
+__This is also bold__
+
+***This text is bold and italic***
+**_This is also bold and italic_**`)
+                                    }}
+                                />
+                            </div>
+
+                            <Title level={3} id="lists">Horizontal Line</Title>
+                            <Paragraph>
+                                You can use --- to create a horizontal line on markdown.
+                            </Paragraph>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">  
+  <div className="bg-gray-50 p-4 rounded border font-mono">  
+    {`First paragraph...  
+
+---  
+
+Second paragraph below the line`}  
+  </div>  
+  <div className="bg-white p-4 rounded border prose prose-slate max-w-none">  
+    <p>First paragraph...</p>  
+    <hr/>  
+    <p>Second paragraph below the line</p>  
+  </div>  
+</div>  
                         </div>
                     </Card>
                 </section>
 
-                {/* 新增：FAQ部分 */}
-                <section className="mt-8" id="faq">
-                    <Card title="Frequently Asked Questions">
-                        <div className="space-y-6">
-                            <div>
-                                <h3 className="text-lg font-bold">What is Markdown?</h3>
-                                <p className="text-gray-600">
-                                    Markdown is a lightweight markup language that you can use to add formatting elements to plaintext text documents.
-                                    Created by John Gruber in 2004, Markdown is now one of the world&apos;s most popular markup languages.
-                                </p>
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold">Why convert Markdown to HTML?</h3>
-                                <p className="text-gray-600">
-                                    HTML is the standard language for web pages. Converting Markdown to HTML allows you to use your content on websites,
-                                    blogs, and other web platforms. HTML provides more precise control over how content appears in web browsers.
-                                </p>
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold">Is this tool free to use?</h3>
-                                <p className="text-gray-600">
-                                    Yes, this Markdown to HTML converter is completely free to use with no limitations.
-                                    You can convert as many files as you need, as often as you need, at no cost.
-                                </p>
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold">Do you store my Markdown files?</h3>
-                                <p className="text-gray-600">
-                                    No, all conversion happens in your browser. We don&apos;t store or process your files on our servers.
-                                    Your content remains private and secure, never leaving your computer.
-                                </p>
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold">What Markdown syntax is supported?</h3>
-                                <p className="text-gray-600">
-                                    Our converter supports standard Markdown syntax including headings, emphasis, lists, links, images, code blocks,
-                                    blockquotes, and horizontal rules. We also support many extended Markdown features like tables and task lists.
-                                </p>
-                            </div>
-                        </div>
-                    </Card>
-                </section>
 
-                {/* 新增：相关资源链接 */}
-                <section className="mt-8">
-                    <Card title="Helpful Resources">
+             
+                       {/* FAQ部分 */}
+                       <section className="mt-8">
+                    <h2 className="text-2xl font-bold mb-4" id="faq">Frequently Asked Questions</h2>
+                    <FAQSection />
+                </section>
+                   {/* 相关资源链接 */}
+                   <section className="mt-8">
+                    <h2 className="text-2xl font-bold mb-4" id="resources">Learning Resources</h2>
+                    <Card>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             <div className="border p-4 rounded">
                                 <h3 className="font-bold mb-2">Markdown Guides</h3>
