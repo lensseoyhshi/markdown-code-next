@@ -35,7 +35,8 @@ export default function Home() {
 
     useEffect(() => {
         const initialHtml = marked.parse(defaultMarkdown);
-        setHtmlPreview(initialHtml);
+        // 确保 initialHtml 是字符串类型
+        setHtmlPreview(typeof initialHtml === 'string' ? initialHtml : '');
     }, []);
 
     // 处理文件选择
@@ -357,10 +358,10 @@ export default function Home() {
                         <div className="prose prose-slate max-w-none">
 
                         <Title level={3} id="line-breaks">Line Breaks</Title>
-                <Paragraph>
-                    To create a new line, end a line with two or more spaces, and then press Enter.
-                </Paragraph>
-            
+                            <Paragraph>
+                                To create a new line, end a line with two or more spaces, and then press Enter.
+                            </Paragraph>
+
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                 <div className="bg-gray-50 p-4 rounded border font-mono">
 {`This is the first line. And this is the second line.`}
@@ -376,7 +377,7 @@ And this is the second line.</p>`)
 
                             <Title level={3} id="headings">Underline</Title>
                             <Paragraph>
-                            While Markdown doesn't natively support underlines, you can use HTML's tag. Below is a bilingual example.
+                            While Markdown doesn&apos;t natively support underlines, you can use HTML&apos;s tag. Below is a bilingual example.
                             </Paragraph>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">  
   <div className="bg-gray-50 p-4 rounded border font-mono">  
@@ -419,7 +420,7 @@ __This is also bold__
 
                             <Title level={3} id="lists">Horizontal Line</Title>
                             <Paragraph>
-                                You can use '---' to create a horizontal line on markdown.
+                                You can use --- to create a horizontal line on markdown.
                             </Paragraph>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">  
   <div className="bg-gray-50 p-4 rounded border font-mono">  
