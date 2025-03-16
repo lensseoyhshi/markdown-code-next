@@ -1,30 +1,23 @@
 'use client';
-
-// 移除这部分，因为 metadata 需要在服务端处理
-// export const metadata = {
-//     title: 'Markdown to HTML Converter',
-//     description: 'Convert your Markdown files to HTML format online'
-// };
-
-// 直接复制 page.tsx 的内容到这个新文件即可
 import { useState, useEffect } from 'react';
-import { Button, Typography, message, Card, Input } from 'antd';
-import { FileMarkdownOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Button, Typography, message, Card, Input, Divider } from 'antd';
+import { FileMarkdownOutlined, DownloadOutlined, CheckCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { RcFile } from 'antd/es/upload';
-import { downloadFile } from '../../services/api';
-import { extractFileName } from '../../utils/file';
-import FileUploader from '../../components/FileUploader';
-import ProcessingProgress from '../../components/ProcessingProgress';
-import ConversionResult from '../../components/ConversionResult';
-import ErrorHandler from '../../components/ErrorHandler';
-import { usePageLoading } from '../../hooks/usePageLoading';
+import { downloadFile } from '@/services/api';
+import { extractFileName } from '@/utils/file';
+import FileUploader from '@/components/FileUploader';
+import ProcessingProgress from '@/components/ProcessingProgress';
+import ConversionResult from '@/components/ConversionResult';
+import ErrorHandler from '@/components/ErrorHandler';
+import FAQSection from '@/components/FAQSection';
+import { usePageLoading } from '@/hooks/usePageLoading';
 import { Progress } from 'antd';
-// import { DownloadOutlined } from '@ant-design/icons';
 import { marked } from 'marked';
 import { Tabs } from 'antd';
-import JsonLd from '@/components/JsonLd';
-const { Title, Text } = Typography;
-// const { Step } = Steps;
+import { defaultMarkdown } from '@/config/faq';
+
+import Link from 'next/link';
+const { Title, Text, Paragraph } = Typography;
 
 export default function Home() {
     const [messageApi, contextHolder] = message.useMessage();
@@ -36,15 +29,21 @@ export default function Home() {
     const [error, setError] = useState<Error | null>(null);
     const [uploaderKey, setUploaderKey] = useState<number>(0);
     const [outputFileName, setOutputFileName] = useState('');
-    const [markdownText, setMarkdownText] = useState('');
+    const [markdownText, setMarkdownText] = useState(defaultMarkdown);
     const [htmlPreview, setHtmlPreview] = useState('');
-    // const [showRawHtml, setShowRawHtml] = useState(false);
+
+    useEffect(() => {
+        const initialHtml = marked.parse(defaultMarkdown);
+        // 确保 initialHtml 是字符串类型
+        setHtmlPreview(typeof initialHtml === 'string' ? initialHtml : '');
+    }, []);
+
     // 处理文件选择
     const handleFileSelected = (file: RcFile) => {
         // 添加文件类型校验
         if (!file.name.toLowerCase().endsWith('.md')) {
             messageApi.error('Only Markdown files are supported');
-            return false;  
+            return false;
         }
         setUploadedFile(file);
         setOutputFilePath('');
@@ -83,7 +82,6 @@ export default function Home() {
         setIsProcessing(true);
         setProcessingProgress(0);
         setError(null);
-        // setCurrentStep(1);
 
         // 创建进度模拟器
         const progressInterval = simulateProgress();
@@ -113,7 +111,6 @@ export default function Home() {
                 clearInterval(progressInterval); // 清除进度模拟器
                 messageApi.success('Conversion completed!');
                 setIsProcessing(false);
-                // setCurrentStep(2);
             };
 
             reader.readAsText(uploadedFile);
@@ -163,7 +160,6 @@ export default function Home() {
         setProcessingProgress(0);
         setIsProcessing(false);
         setError(null);
-        // setCurrentStep(0);
 
         // 更改key值，强制FileUploader组件重新渲染，清空已选文件
         setUploaderKey(prev => prev + 1);
@@ -188,6 +184,7 @@ export default function Home() {
             </div>
         );
     }
+
     // 处理 Markdown 文本变化
     const handleMarkdownChange = async (value: string) => {
         setMarkdownText(value);
@@ -202,159 +199,297 @@ export default function Home() {
         }
     };
 
+
     return (
-        <>
-            <JsonLd />
-            <article className="container mx-auto p-4 max-w-6xl opacity-0 animate-fade-in">
-                {contextHolder}
+        <article className="container mx-auto p-4 max-w-6xl opacity-0 animate-fade-in">
+            {contextHolder}
 
-                <header className="text-center mb-8">
-                    <h1 className="text-3xl font-bold mb-2">
-                        <FileMarkdownOutlined className="mr-2" />
-                        Markdown to HTML Converter
-                    </h1>
-                    <p className="text-gray-600">
-                        Upload Markdown files and convert to HTML format
-                    </p>
-                </header>
+            <header className="text-center mb-8">
+                <h1 className="text-3xl font-bold mb-2">
+                    <FileMarkdownOutlined className="mr-2" />
+                    AI-Powered Markdown to HTML Online Converter 
+                </h1>
+                <p className="text-gray-600 mb-4">
+                    Real-time Preview, File Upload Support, Free To Use, No Registration Required.
+                </p>
+            </header>
 
-                <section aria-label="conversion-process" className="space-y-6">
-                    <section aria-label="file-upload" className="mb-6">
-                        <Card>
-                            <div className="space-y-4">
-                                <FileUploader
-                                    key={uploaderKey}
-                                    onFileSelected={handleFileSelected}
-                                    disabled={isProcessing}
-                                />
+            {/* 目录导航 */}
+            {/* <nav className="mb-8">
+                <div className="flex flex-wrap gap-2 justify-center">
+                    <a href="#convert" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors">
+                        Convert MD File
+                    </a>
+                    <a href="#editor" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors">
+                        Real-time Editor
+                    </a>
+                    <a href="#syntax" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors">
+                        Popular Syntax
+                    </a>
+                    <a href="#advanced" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors">
+                        Advanced Syntax
+                    </a>
+                    <a href="#faq" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors">
+                        FAQ
+                    </a>
+                    <a href="#resources" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors">
+                        Resources
+                    </a>
+                </div>
+            </nav> */}
 
-                                {uploadedFile && !isProcessing && !outputFilePath && (
-                                    <div className="flex gap-2">
-                                        <Button
-                                            type="primary"
-                                            onClick={handleUpload}
-                                            loading={isUploading}
-                                            disabled={isProcessing}
-                                            className="flex-1"
-                                            style={{ backgroundColor: '#1677ff', color: 'white', borderColor: '#1677ff' }}
-                                        >
-                                            Start Convert
-                                        </Button>
-                                        {/* <Button 
-                                            onClick={resetState}
-                                            className="flex-none"
-                                            style={{ backgroundColor: '#1677ff', color: 'white', borderColor: '#1677ff' }}
-                                        >
-                                            Reset
-                                        </Button> */}
-                                    </div>
-                                )}
+            <section aria-label="conversion-process" className="space-y-6">
+                <h2 className="text-2xl font-bold mb-4" id="convert">Convert MD File To HTML File</h2>
+                <section aria-label="file-upload" className="mb-6">
+                    <Card style={{ minHeight: '75px', padding: '12px' }}>
+                        <div className="space-y-1">
+                            <FileUploader
+                                key={uploaderKey}
+                                onFileSelected={handleFileSelected}
+                                disabled={isProcessing}
+                            />
 
-                                {isProcessing && (
-                                    <div>
-                                        <div className="text-sm text-gray-600 mb-2">
-                                            Processing: {uploadedFile?.name}
-                                        </div>
-                                        <Progress percent={processingProgress} status="active" />
-                                    </div>
-                                )}
-
-                                {outputFilePath && (
+                            {uploadedFile && !isProcessing && !outputFilePath && (
+                                <div className="flex gap-1 mt-1">
                                     <Button
                                         type="primary"
-                                        onClick={handleDownload}
-                                        className="w-full"
+                                        onClick={handleUpload}
+                                        loading={isUploading}
+                                        disabled={isProcessing}
+                                        className="flex-1"
                                         style={{ backgroundColor: '#1677ff', color: 'white', borderColor: '#1677ff' }}
-                                        icon={<DownloadOutlined />}
                                     >
-                                        Download HTML
+                                        Start Convert
                                     </Button>
-                                )}
-                            </div>
-                        </Card>
-                    </section>
+                                </div>
+                            )}
 
-                    {/* 实时预览部分 */}
-                    <section className="mt-8">
-                        <Card>
-                            <div className="grid grid-cols-2 gap-4">
+                            {isProcessing && (
                                 <div>
-                                    <Tabs
-                                        items={[
-                                            {
-                                                key: 'input',
-                                                label: 'Input Markdown',
-                                                children: (
+                                    <div className="text-sm text-gray-600 mb-2">
+                                        Processing: {uploadedFile?.name}
+                                    </div>
+                                    <Progress percent={processingProgress} status="active" />
+                                </div>
+                            )}
+
+                            {outputFilePath && (
+                                <Button
+                                    type="primary"
+                                    onClick={handleDownload}
+                                    className="w-full"
+                                    style={{ backgroundColor: '#1677ff', color: 'white', borderColor: '#1677ff' }}
+                                    icon={<DownloadOutlined />}
+                                >
+                                    Download HTML
+                                </Button>
+                            )}
+                        </div>
+                    </Card>
+                </section>
+
+                {/* 实时预览部分 */}
+                <section className="mt-8">
+                    <h2 className="text-2xl font-bold mb-4" id="editor">MD To HTML Real-time Editor</h2>
+                    <Card>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                                <Tabs
+                                    items={[
+                                        {
+                                            key: 'input',
+                                            label: 'Input Markdown',
+                                            children: (
+                                                <div>
+                                                    {/* <p className="mb-2 text-gray-600">Type or paste your Markdown text below:</p> */}
                                                     <Input.TextArea
                                                         value={markdownText}
                                                         onChange={(e) => handleMarkdownChange(e.target?.value as string)}
-                                                        placeholder="Enter Markdown text here..."
+                                                        placeholder="# Hello World\n\nThis is **Markdown** text. Write or paste your content here to see the HTML conversion in real-time."
                                                         className="min-h-[600px] font-mono resize-none"
                                                         style={{ height: '600px', overflowY: 'auto' }}
                                                     />
-                                                )
-                                            },
-                                            // {
-                                            //     key: 'preview',
-                                            //     label: 'Preview',
-                                            //     children: (
-                                            //         <div 
-                                            //             className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 prose prose-slate max-w-none"
-                                            //             style={{ height: '600px' }}
-                                            //             dangerouslySetInnerHTML={{ __html: htmlPreview }}
-                                            //         />
-                                            //     )
-                                            // // },
-                                            // {
-                                            //     key: 'raw',
-                                            //     label: 'Raw HTML',
-                                            //     children: (
-                                            //         <pre 
-                                            //             className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 text-sm"
-                                            //             style={{ height: '600px' }}
-                                            //         >
-                                            //             {htmlPreview}
-                                            //         </pre>
-                                            //     )
-                                            // }
-                                        ]}
-                                    />
-                                </div>
-                                <div>
-                                    <Tabs
-                                        defaultActiveKey="raw"
-                                        items={[
-                                            {
-                                                key: 'preview',
-                                                label: 'Preview',
-                                                children: (
-                                                    <div 
-                                                        className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 prose prose-slate max-w-none"
-                                                        style={{ height: '600px' }}
-                                                        dangerouslySetInnerHTML={{ __html: htmlPreview }}
-                                                    />
-                                                )
-                                            },
-                                            {
-                                                key: 'raw',
-                                                label: 'Raw HTML',
-                                                children: (
-                                                    <pre 
-                                                        className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 text-sm"
-                                                        style={{ height: '600px' }}
-                                                    >
-                                                        {htmlPreview}
-                                                    </pre>
-                                                )
-                                            }
-                                        ]}
-                                    />
-                                </div>
+                                                </div>
+                                            )
+                                        },
+                                    ]}
+                                />
                             </div>
-                        </Card>
-                    </section>
+                            <div>
+                                <Tabs
+                                    defaultActiveKey="raw"
+                                    items={[
+                                        {
+                                            key: 'preview',
+                                            label: 'Preview',
+                                            children: (
+                                                <div
+                                                    className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 prose prose-slate max-w-none"
+                                                    style={{ height: '600px' }}
+                                                    dangerouslySetInnerHTML={{ __html: htmlPreview }}
+                                                />
+                                            )
+                                        },
+                                        {
+                                            key: 'raw',
+                                            label: 'Raw HTML',
+                                            children: (
+                                                <pre
+                                                    className="border p-4 rounded min-h-[600px] overflow-auto bg-gray-50 text-sm"
+                                                    style={{ height: '600px' }}
+                                                >
+                                                    {htmlPreview}
+                                                </pre>
+                                            )
+                                        }
+                                    ]}
+                                />
+                            </div>
+                        </div>
+                    </Card>
                 </section>
-            </article>
-        </>
+
+         
+
+                {/* Markdown 语法部分 */}
+                <section className="mt-8">
+                    <h2 className="text-2xl font-bold mb-4" id="syntax">Popular Markdown Syntax</h2>
+                    <Card>
+                        <div className="prose prose-slate max-w-none">
+
+                        <Title level={3} id="line-breaks">Line Breaks</Title>
+                            <Paragraph>
+                                To create a new line, end a line with two or more spaces, and then press Enter.
+                            </Paragraph>
+
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div className="bg-gray-50 p-4 rounded border font-mono">
+{`This is the first line. And this is the second line.`}
+                                </div>
+                                <div 
+                                    className="bg-white p-4 rounded border prose prose-slate max-w-none"
+                                    dangerouslySetInnerHTML={{
+                                        __html: marked.parse(`<p>This is the first line.<br>
+And this is the second line.</p>`)
+                                    }}
+                                />
+                            </div>
+
+                            <Title level={3} id="headings">Underline</Title>
+                            <Paragraph>
+                            While Markdown doesn&apos;t natively support underlines, you can use HTML&apos;s tag. Below is a bilingual example.
+                            </Paragraph>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">  
+  <div className="bg-gray-50 p-4 rounded border font-mono">  
+    {`Use <u>HTML tags</u> in Markdown for underlines`}  
+  </div>  
+  <div className="bg-white p-4 rounded border prose prose-slate max-w-none">  
+    <p>Use <u>HTML tags</u> in Markdown for underlines</p>  
+  </div>  
+</div>  
+
+                            <Title level={3} id="emphasis">Text Bold</Title>
+                            <Paragraph>
+                                You can add emphasis by making text bold or italic.
+                            </Paragraph>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div className="bg-gray-50 p-4 rounded border font-mono">
+{`*This text is italic*
+_This is also italic_
+
+**This text is bold**
+__This is also bold__
+
+***This text is bold and italic***
+**_This is also bold and italic_**`}
+                                </div>
+                                <div 
+                                    className="bg-white p-4 rounded border prose prose-slate max-w-none"
+                                    dangerouslySetInnerHTML={{
+                                        __html: marked.parse(`*This text is italic*
+_This is also italic_
+
+**This text is bold**
+__This is also bold__
+
+***This text is bold and italic***
+**_This is also bold and italic_**`)
+                                    }}
+                                />
+                            </div>
+
+                            <Title level={3} id="lists">Horizontal Line</Title>
+                            <Paragraph>
+                                You can use --- to create a horizontal line on markdown.
+                            </Paragraph>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">  
+  <div className="bg-gray-50 p-4 rounded border font-mono">  
+    {`First paragraph...  
+
+---  
+
+Second paragraph below the line`}  
+  </div>  
+  <div className="bg-white p-4 rounded border prose prose-slate max-w-none">  
+    <p>First paragraph...</p>  
+    <hr/>  
+    <p>Second paragraph below the line</p>  
+  </div>  
+</div>  
+                        </div>
+                    </Card>
+                </section>
+
+
+             
+                       {/* FAQ部分 */}
+                       <section className="mt-8">
+                    <h2 className="text-2xl font-bold mb-4" id="faq">Frequently Asked Questions</h2>
+                    <FAQSection />
+                </section>
+                   {/* 相关资源链接 */}
+                   <section className="mt-8">
+                    <h2 className="text-2xl font-bold mb-4" id="resources">Learning Resources</h2>
+                    <Card>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div className="border p-4 rounded">
+                                <h3 className="font-bold mb-2">Markdown Guides</h3>
+                                <ul className="space-y-1">
+                                    <li><a href="/markdown-guide" className="text-blue-500 hover:underline">Complete Markdown Guide</a></li>
+                                    <li><a href="https://www.markdownguide.org/basic-syntax/" className="text-blue-500 hover:underline">Markdown Basic Syntax</a></li>
+                                    <li><a href="https://github.github.com/gfm/" className="text-blue-500 hover:underline">GitHub Flavored Markdown</a></li>
+                                </ul>
+                            </div>
+                            <div className="border p-4 rounded">
+                                <h3 className="font-bold mb-2">HTML Resources</h3>
+                                <ul className="space-y-1">
+                                    <li><a href="/html-basics" className="text-blue-500 hover:underline">HTML Basics for Beginners</a></li>
+                                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML" className="text-blue-500 hover:underline">MDN HTML Documentation</a></li>
+                                    <li><a href="https://www.w3schools.com/html/" className="text-blue-500 hover:underline">W3Schools HTML Tutorial</a></li>
+                                </ul>
+                            </div>
+                            {/*<div className="border p-4 rounded">*/}
+                            {/*    <h3 className="font-bold mb-2">Other Tools</h3>*/}
+                            {/*    <ul className="space-y-1">*/}
+                            {/*        <li><a href="/html-to-markdown" className="text-blue-500 hover:underline">HTML to Markdown Converter</a></li>*/}
+                            {/*        <li><a href="/markdown-editor" className="text-blue-500 hover:underline">Online Markdown Editor</a></li>*/}
+                            {/*        <li><a href="/html-validator" className="text-blue-500 hover:underline">HTML Validator</a></li>*/}
+                            {/*    </ul>*/}
+                            {/*</div>*/}
+                        </div>
+                    </Card>
+                </section>
+            </section>
+
+            {/* 页脚 */}
+            <footer className="mt-12 text-center text-gray-500 text-sm">
+                <p>© {new Date().getFullYear()} AI2Markdown - Free Online Markdown to HTML Converter</p>
+                <p className="mt-1">
+                    <a href="/privacy" className="text-blue-500 hover:underline mr-4">Privacy Policy</a>
+                    <a href="/terms" className="text-blue-500 hover:underline mr-4">Terms of Service</a>
+                    <a href="/contact" className="text-blue-500 hover:underline">Contact Us</a>
+                </p>
+            </footer>
+        </article>
     );
 }

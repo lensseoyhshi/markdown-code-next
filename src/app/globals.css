@@ -99,3 +99,8 @@ body {
 .loading * {
     transition: all 0.2s;
 }
+
+/* 为主要内容添加顶部边距，避免被固定导航栏遮挡 */
+main, article {
+    margin-top: 6rem; /* 64px, 应该足够容纳导航栏高度 */
+}

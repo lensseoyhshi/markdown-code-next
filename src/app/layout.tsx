@@ -7,15 +7,16 @@ import { getFAQSchemaData } from '@/config/faq';
 
 const inter = Inter({subsets: ['latin']});
 import 'antd/dist/reset.css';
-import {siteMetadata} from '../config/metadata';
+import {siteMetadata} from '../config/base_metadata';
+import Navigation from '@/components/Navigation';
 
 export const metadata = {
     metadataBase: new URL(siteMetadata.siteUrl),
     title: {
-        default: 'Free Markdown to HTML Converter - Ai2Markdown Pro',
-        template: `%s | Markdown to HTML Converter`
+        default: 'Markdown Convert | Markdown Question List',
+        // template: `%s | Markdown to HTML Converter` 
     },
-    description: 'Ai2Markdown Can Convert Your Markdown to HTML with AI-Powered Precision | Real-Time Preview & GitHub-Style Export',
+    description: 'Complete guide to Markdown syntax, formatting, and best practices. Learn how to write beautiful documents with Markdown.',
     keywords: 'markdown, md, converter, online tool, free, markdown to html, md to html,html generator,markdown syntax',
     authors: [{name: siteMetadata.author.name}],
     creator: siteMetadata.creator,
@@ -23,8 +24,8 @@ export const metadata = {
         type: 'website',
         locale: siteMetadata.locale,
         url: siteMetadata.siteUrl,
-        title: siteMetadata.title,
-        description: siteMetadata.description,
+        title: 'Free Markdown to HTML Converter - Ai2Markdown',
+        description: 'Ai2Markdown Can Convert Your Markdown to HTML with AI-Powered Precision | Real-Time Preview & GitHub-Style Export',
         siteName: 'AI2Markdown',
         images: [
             {
@@ -35,7 +36,6 @@ export const metadata = {
             }
         ]
     },
-    // twitter: {
     //     card: 'summary_large_image',
     //     title: 'Free Markdown to HTML Converter - Ai2Markdown Pro',
     //     description: 'Ai2Markdown Can Convert Your Markdown to HTML with AI-Powered Precision | Real-Time Preview & GitHub-Style Export.',
@@ -130,6 +130,7 @@ export default function RootLayout({
             />
         </head>
         <body>
+        <Navigation />
         {children}
         </body>
         </html>
