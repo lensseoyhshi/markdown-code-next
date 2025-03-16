@@ -1,8 +1,11 @@
 'use client';
-import { Button, Typography } from 'antd';
+import { Button, Divider, Typography } from 'antd';
 import Link from 'next/link';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { usePageLoading } from '@/hooks/usePageLoading';
+import { EditOutlined } from '@ant-design/icons';
+import ConverterCard from '@/components/ConverterCard';
+import { Metadata } from 'next';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -10,46 +13,96 @@ const { Title, Paragraph, Text } = Typography;
 interface QuestionContent {
     title: string;
     description: string;
+    keywords: string;
     content: React.ReactNode;
 }
 
+// 添加 generateMetadata 函数
+// export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+//     const question = questionsData[params.slug];
+    
+//     if (!question) {
+//         return {
+//             title: 'Question Not Found',
+//             description: 'The requested question could not be found.'
+//         };
+//     }
+
+//     return {
+//         title: question.title,
+//         description: question.description,
+//         openGraph: {
+//             title: question.title,
+//             description: question.description,
+//             type: 'article'
+//         }
+//     };
+// }
+
 // 问题数据
 const questionsData: Record<string, QuestionContent> = {
-    'markdown-vs-html': {
-        title: "What's the difference between Markdown and HTML?",
-        description: 'Learn the key differences and advantages of these markup languages',
+    'underline-in-markdown': {
+        title: "How to underline in markdown?",
+        description: 'Learn different ways to create underlined text in Markdown documents',
+        keywords: '',
         content: (
             <>
                 <Paragraph className="text-lg">
-                    Markdown and HTML are both markup languages used for formatting text, but they have several key differences:
+                    There are several methods to create underlined text in Markdown. Since native Markdown syntax doesn&apos;t directly support underlining, we need to use alternative approaches:
                 </Paragraph>
                 
-                <Title level={3}>Syntax Complexity</Title>
+                <Title level={3}>Using HTML Tags</Title>
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
                         <li>
-                            <Text strong>Markdown:</Text> Uses simple symbols and text formatting, like # for headings and * for list items
+                            <Text strong>{"<u>"} Tag:</Text> The most direct way is using HTML&apos;s u tag
+                            <br />
+                            <Text code>{"<u>This is underlined text</u>"}</Text>
+                            <br />
+                            <u>Example: This is underlined text</u>
                         </li>
                         <li>
-                            <Text strong>HTML:</Text> Uses tag pairs {"<tag></tag>"} to define elements, relatively more complex syntax
+                            <Text strong>{"<ins>"} Tag:</Text> Represents inserted text, also displays with underline
+                            <br />
+                            <Text code>{"<ins>This is inserted text</ins>"}</Text>
+                            <br />
+                            <ins>Example: This is inserted text</ins>
                         </li>
                     </ul>
                 </Paragraph>
 
-                <Title level={3}>Use Cases</Title>
+                <Title level={3}>Using CSS Styles</Title>
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
                         <li>
-                            <Text strong>Markdown:</Text> Perfect for quick document writing, READMEs, blog posts, etc.
-                        </li>
-                        <li>
-                            <Text strong>HTML:</Text> Ideal for building complete web pages and complex layouts
+                            <Text strong>Inline Style:</Text> Adding underline using style attribute
+                            <br />
+                            <Text code>{"<span style='text-decoration: underline'>Using CSS to add underline</span>"}</Text>
+                            <br />
+                            <span style={{textDecoration: 'underline'}}>Example: Using CSS to add underline</span>
                         </li>
                     </ul>
                 </Paragraph>
 
-                <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-                    <Text strong>Need to convert Markdown to HTML?</Text>
+                <Title level={3}>Important Considerations</Title>
+                <Paragraph>
+                    <ul className="list-disc pl-6 space-y-2">
+                        <li>
+                            <Text strong>Readability:</Text> 
+                            Underlines are typically used to indicate links in web design. Excessive use may affect document readability
+                        </li>
+                        <li>
+                            <Text strong>Compatibility:</Text> 
+                            HTML tag methods work in most Markdown editors, but some strict environments might filter HTML tags
+                        </li>
+                    </ul>
+                </Paragraph>
+                <Divider />
+                <div className="mt-8">
+                    <ConverterCard />
+                </div>
+                {/* <div className="mt-8 p-4 bg-blue-50 rounded-lg">
+                    <Text strong>Want to convert your Markdown to HTML?</Text>
                     <div className="mt-4">
                         <Link href="/markdown-to-html">
                             <Button type="primary">
@@ -57,7 +110,7 @@ const questionsData: Record<string, QuestionContent> = {
                             </Button>
                         </Link>
                     </div>
-                </div>
+                </div> */}
             </>
         ),
     },
