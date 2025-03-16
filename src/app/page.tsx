@@ -82,7 +82,7 @@ export default function Home() {
                                 <div className="flex justify-between items-center">
                                     <div>
                                         <Title level={3} className="!mb-2">
-                                            What's the difference between Markdown and HTML?
+                                            What is the difference between Markdown and HTML?
                                         </Title>
                                         <Text type="secondary">
                                             Learn the key differences and advantages of these markup languages
