@@ -77,12 +77,12 @@ export default function Home() {
                             <Card 
                                 hoverable 
                                 className="transition-all duration-300 hover:shadow-md"
-                                onClick={() => window.location.href = '/questions/markdown-vs-html'}
+                                onClick={() => window.location.href = '/questions/underline-in-markdown'}
                             >
                                 <div className="flex justify-between items-center">
                                     <div>
                                         <Title level={3} className="!mb-2">
-                                            What is the difference between Markdown and HTML?
+                                            How to underline with markdown?
                                         </Title>
                                         <Text type="secondary">
                                             Learn the key differences and advantages of these markup languages
