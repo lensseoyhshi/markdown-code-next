@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Complete Markdown Guide - Free Markdown to HTML Converter',
         description: 'Learn everything about Markdown, from basic syntax to advanced features. Convert Markdown to HTML instantly.',
-        url: 'https://www.ai2markdown.com/guide',
+        url: 'https://www.ai2markdown.com',
         siteName: 'AI2Markdown',
         images: [
             {
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
         images: ['/og-image.png'],
     },
     alternates: {
-        canonical: 'https://www.ai2markdown.com/guide',
+        canonical: 'https://www.ai2markdown.com',
     },
     robots: {
         index: true,
