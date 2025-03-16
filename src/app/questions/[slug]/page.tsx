@@ -48,14 +48,14 @@ const questionsData: Record<string, QuestionContent> = {
         content: (
             <>
                 <Paragraph className="text-lg">
-                    There are several methods to create underlined text in Markdown. Since native Markdown syntax doesn't directly support underlining, we need to use alternative approaches:
+                    There are several methods to create underlined text in Markdown. Since native Markdown syntax doesn&apos;t directly support underlining, we need to use alternative approaches:
                 </Paragraph>
                 
                 <Title level={3}>Using HTML Tags</Title>
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
                         <li>
-                            <Text strong>{"<u>"} Tag:</Text> The most direct way is using HTML's u tag
+                            <Text strong>{"<u>"} Tag:</Text> The most direct way is using HTML&apos;s u tag
                             <br />
                             <Text code>{"<u>This is underlined text</u>"}</Text>
                             <br />
