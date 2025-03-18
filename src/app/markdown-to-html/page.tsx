@@ -207,7 +207,7 @@ export default function Home() {
             <header className="text-center mb-8">
                 <h1 className="text-3xl font-bold mb-2">
                     <FileMarkdownOutlined className="mr-2" />
-                    AI-Powered Markdown to HTML Online Converter
+                   Markdown to HTML Online Converter | AI-Powered 
                 </h1>
                 <p className="text-gray-600 mb-4">
                     Real-time Preview, File Upload Support, Free To Use, No Registration Required.
@@ -440,11 +440,9 @@ Second paragraph below the line`}
                     </Card>
                 </section>
 
-
-
                        {/* FAQ部分 */}
-                       <section className="mt-8">
-                    <h2 className="text-2xl font-bold mb-4" id="faq">Frequently Asked Questions</h2>
+                <section className="mt-8">
+                    <h2 className="text-2xl font-bold mb-4" id="faq">Frequently Q&A</h2>
                     <FAQSection />
                 </section>
                    {/* 相关资源链接 */}
@@ -455,15 +453,15 @@ Second paragraph below the line`}
                             <div className="border p-4 rounded">
                                 <h3 className="font-bold mb-2">Markdown Guides</h3>
                                 <ul className="space-y-1">
-                                    <li><a href="/markdown-guide" className="text-blue-500 hover:underline">Complete Markdown Guide</a></li>
-                                    <li><a href="https://www.markdownguide.org/basic-syntax/" className="text-blue-500 hover:underline">Markdown Basic Syntax</a></li>
+                                    {/* <li><a href="/markdown-guide" className="text-blue-500 hover:underline">Complete Markdown Guide</a></li> */}
+                                    <li><a href="/" className="text-blue-500 hover:underline">Markdown Basic Syntax</a></li>
                                     <li><a href="https://github.github.com/gfm/" className="text-blue-500 hover:underline">GitHub Flavored Markdown</a></li>
                                 </ul>
                             </div>
                             <div className="border p-4 rounded">
                                 <h3 className="font-bold mb-2">HTML Resources</h3>
                                 <ul className="space-y-1">
-                                    <li><a href="/html-basics" className="text-blue-500 hover:underline">HTML Basics for Beginners</a></li>
+                                    {/* <li><a href="/html-basics" className="text-blue-500 hover:underline">HTML Basics for Beginners</a></li> */}
                                     <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML" className="text-blue-500 hover:underline">MDN HTML Documentation</a></li>
                                     <li><a href="https://www.w3schools.com/html/" className="text-blue-500 hover:underline">W3Schools HTML Tutorial</a></li>
                                 </ul>

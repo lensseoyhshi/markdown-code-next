@@ -1,7 +1,7 @@
 // config/metadata.ts
 export const siteMetadata = {
-   title: 'Free Markdown to HTML Converter - Ai2Markdown Pro',
-   description: 'Ai2Markdown Can Convert Your Markdown to HTML with AI-Powered Precision | Real-Time Preview & GitHub-Style Export',
+   title: 'Free Markdown to HTML Converter - Ai2Markdown',
+   description: 'Ai2Markdown Can Convert Markdown to HTML with AI-Powered Precision | Real-Time Preview & GitHub-Style Export',
     siteUrl: 'https://www.ai2markdown.com', // 替换为您的实际网站URL
     siteName: 'AI to markdown',
     locale: 'en-US',

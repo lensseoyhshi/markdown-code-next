@@ -7,9 +7,9 @@ const currentDate = new Date();
 // 您网站的主要路由
 const routes = [
     '',                    // 首页
-    // '/about',             // 关于页面
-    // '/contact',           // 联系页面
-    // '/markdown',          // Markdown转换器页面
+     '/about',             // 关于页面
+     '/contact',           // 联系页面
+    '/questions/underline-in-markdown',          // Markdown转换器页面
     '/markdown-to-html',  // 新增的 Markdown 转 HTML 页面
 ];
 

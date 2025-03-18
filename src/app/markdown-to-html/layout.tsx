@@ -5,8 +5,8 @@ const siteUrl = "https://www.ai2markdown.com/markdown-to-html"
 
 export const metadata: Metadata = {
     title: 'Free Markdown to HTML Converter - Ai2Markdown',
-    description: 'Ai2Markdown Can Convert Your Markdown to HTML with AI-Powered Precision | Real-Time Preview & GitHub-Style Export',
-    keywords: 'markdown, md, converter, online tool, free, markdown to html, md to html,html generator,markdown syntax',
+    description: 'Ai2Markdown can convert markdown to HTML with AI-Powered Precision | Real-Time Preview & GitHub-Style Export',
+    //keywords: 'markdown, md, converter, online tool, free, markdown to html, md to html,html generator,markdown syntax',
     openGraph: {
         type: 'website',
         locale: siteMetadata.locale,
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
         ]
     },
     alternates: {
-        canonical: siteUrl
+        canonical: siteMetadata.siteUrl
     }
 }
 

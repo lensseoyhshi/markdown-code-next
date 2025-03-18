@@ -1,18 +1,23 @@
 import Link from 'next/link';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import {siteMetadata} from '@/config/base_metadata';
 
 export const metadata = {
-    title: 'Privacy Policy - Markdown to HTML Converter',
+    title: 'Privacy Policy - AI2Markdown',
     description: 'Privacy Policy for our Markdown to HTML conversion tool'
+   ,
+    alternates: {
+        canonical: siteMetadata.siteUrl
+    }
 };
 
 export default function Privacy() {
     return (
         <article className="container mx-auto p-4 max-w-3xl">
-            <Link href="/markdown-to-html" className="flex items-center text-blue-500 mb-6 hover:underline">
+            <Link href="/" className="flex items-center text-blue-500 mb-6 hover:underline">
                 <ArrowLeftOutlined className="mr-1"/> Back to Converter
             </Link>
-            <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
+            <h1 className="text-3xl font-bold mb-6">Privacy Policy-Ai2Markdown</h1>
             <div className="prose lg:prose-xl">
                 <p>Last updated: {new Date().toLocaleDateString()}</p>
 

@@ -1,15 +1,20 @@
 import Link from 'next/link';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import {siteMetadata} from '@/config/base_metadata';
 
 export const metadata = {
-    title: 'Terms of Service - Markdown to HTML Converter',
+    title: 'Terms of Service - AI2Markdown',
     description: 'Terms of Service for our Markdown to HTML conversion tool'
+    ,
+    alternates: {
+        canonical: siteMetadata.siteUrl
+    }
 };
 
 export default function Terms() {
     return (
         <article className="container mx-auto p-4 max-w-3xl">
-            <Link href="/markdown-to-html" className="flex items-center text-blue-500 mb-6 hover:underline">
+            <Link href="/" className="flex items-center text-blue-500 mb-6 hover:underline">
                 <ArrowLeftOutlined className="mr-1"/> Back to Converter
             </Link>
             <h1 className="text-3xl font-bold mb-6">Terms of Service</h1>
@@ -17,10 +22,12 @@ export default function Terms() {
                 <p>Last updated: {new Date().toLocaleDateString()}</p>
                 
                 <h2>1. Acceptance of Terms</h2>
-                <p>By accessing and using this Markdown to HTML conversion service, you agree to be bound by these Terms of Service and all applicable laws and regulations.</p>
+                <p>
+                    By accessing and using &quot;AI2Markdown&quot;, you agree to comply with these terms.
+                </p>
 
                 <h2>2. Service Description</h2>
-                <p>We provide a free online tool for converting Markdown text to HTML format. The service is provided "as is" without any warranties.</p>
+                <p>We provide a free online tool for converting Markdown text to HTML format. The service is provided &quot;as is&quot; without any warranties.</p>
 
                 <h2>3. Use License</h2>
                 <p>This service is available for both personal and commercial use. Users must:</p>
@@ -47,7 +54,7 @@ export default function Terms() {
                 </ul>
 
                 <h2>6. Disclaimer</h2>
-                <p>The service is provided "as is" without warranties of any kind. We are not responsible for:</p>
+                <p>The service is provided &quot;as is&quot; without warranties of any kind. We are not responsible for:</p>
                 <ul>
                     <li>Data loss or corruption during conversion</li>
                     <li>Service interruptions or downtime</li>

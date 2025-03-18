@@ -51,7 +51,7 @@ const questionsData: Record<string, QuestionContent> = {
                     There are several methods to create underlined text in Markdown. Since native Markdown syntax doesn&apos;t directly support underlining, we need to use alternative approaches:
                 </Paragraph>
                 
-                <Title level={3}>Using HTML Tags</Title>
+                <Title level={2}>Underlining Text in Markdown Using HTML Tags</Title>
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
                         <li>
@@ -71,7 +71,7 @@ const questionsData: Record<string, QuestionContent> = {
                     </ul>
                 </Paragraph>
 
-                <Title level={3}>Using CSS Styles</Title>
+                <Title level={2}>Using CSS Styles ​in Markdown to Underline </Title>
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
                         <li>
@@ -84,7 +84,7 @@ const questionsData: Record<string, QuestionContent> = {
                     </ul>
                 </Paragraph>
 
-                <Title level={3}>Important Considerations</Title>
+                <Title level={2}>Important Considerations</Title>
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
                         <li>

@@ -1,6 +1,12 @@
+import {siteMetadata} from '@/config/base_metadata';
+
 export const metadata = {
     title: 'About Our Markdown Converter',
     description: 'Learn more about our free online Markdown to HTML conversion tool'
+    ,
+    alternates: {
+        canonical: siteMetadata.siteUrl
+    }
 };
 
 export default function About() {

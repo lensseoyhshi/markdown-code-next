@@ -1,9 +1,13 @@
-/* src/app/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Poppins', var(--font-sans);
   --primary-color: #1890ff;
   --success-color: #52c41a;
   --warning-color: #faad14;
@@ -103,4 +107,30 @@ body {
 /* 为主要内容添加顶部边距，避免被固定导航栏遮挡 */
 main, article {
     margin-top: 6rem; /* 64px, 应该足够容纳导航栏高度 */
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply text-gray-600;
+    font-family: var(--font-sans);
+    line-height: 1.75;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    @apply text-gray-900 font-semibold tracking-tight;
+  }
+
+  h1 { @apply text-4xl md:text-5xl mb-6; }
+  h2 { @apply text-3xl md:text-4xl mb-4; }
+  h3 { @apply text-2xl md:text-3xl mb-3; }
+  
+  p { @apply mb-4 text-gray-600; }
 }

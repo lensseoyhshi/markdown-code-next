@@ -1,11 +1,16 @@
 // src/app/layout.tsx
 import './globals.css';
-import {Inter} from 'next/font/google';
+import { Inter, Poppins } from 'next/font/google';
 import {ConfigProvider} from 'antd';
 import enUS from 'antd/locale/en_US';
 import { getFAQSchemaData } from '@/config/faq';
 
 const inter = Inter({subsets: ['latin']});
+const poppins = Poppins({
+    weight: ['400', '500', '600', '700'],
+    subsets: ['latin'],
+    display: 'swap',
+});
 import 'antd/dist/reset.css';
 import {siteMetadata} from '../config/base_metadata';
 import Navigation from '@/components/Navigation';
@@ -13,19 +18,18 @@ import Navigation from '@/components/Navigation';
 export const metadata = {
     metadataBase: new URL(siteMetadata.siteUrl),
     title: {
-        default: 'Markdown Convert | Markdown Question List',
-        // template: `%s | Markdown to HTML Converter` 
+        default: 'Markdown File Converter | The Best Tool to Convert Markdown to Any Format',
     },
-    description: 'Complete guide to Markdown syntax, formatting, and best practices. Learn how to write beautiful documents with Markdown.',
-    keywords: 'markdown, md, converter, online tool, free, markdown to html, md to html,html generator,markdown syntax',
+    description: 'Convert any document to clean Markdown format instantly - 100% Free, No Registration Required. Support PDF, Word, PowerPoint, Excel and more. Fast, secure, and easy to use online converter with instant results.',
+    //keywords: 'markdown, md, converter, online tool, free, markdown to html, md to html,html generator,markdown syntax',
     authors: [{name: siteMetadata.author.name}],
     creator: siteMetadata.creator,
     openGraph: {
         type: 'website',
         locale: siteMetadata.locale,
         url: siteMetadata.siteUrl,
-        title: 'Free Markdown to HTML Converter - Ai2Markdown',
-        description: 'Ai2Markdown Can Convert Your Markdown to HTML with AI-Powered Precision | Real-Time Preview & GitHub-Style Export',
+        title: 'Markdown File Converter',
+        description: 'Convert any document to clean Markdown format instantly - 100% Free, No Registration Required. Support PDF, Word, PowerPoint, Excel and more. Fast, secure, and easy to use online converter with instant results.',
         siteName: 'AI2Markdown',
         images: [
             {
@@ -36,12 +40,6 @@ export const metadata = {
             }
         ]
     },
-    //     card: 'summary_large_image',
-    //     title: 'Free Markdown to HTML Converter - Ai2Markdown Pro',
-    //     description: 'Ai2Markdown Can Convert Your Markdown to HTML with AI-Powered Precision | Real-Time Preview & GitHub-Style Export.',
-    //     creator: siteMetadata.twitter?.creator || '@yourhandle',
-    //     images: [`${siteMetadata.siteUrl}/twitter-image.png`]
-    // },
     robots: {
         index: true,
         follow: true,

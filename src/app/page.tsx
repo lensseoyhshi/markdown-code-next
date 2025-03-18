@@ -33,10 +33,25 @@ export default function Home() {
                 </Link>
 
                 <Typography>
-                    <Title level={1}>Complete Markdown Guide</Title>
+                    <Title 
+                        level={1} 
+                        className="font-heading text-4xl font-bold tracking-tight text-gray-900 mb-6"
+                    >
+                        Markdown Converter Guide
+                    </Title>
+                    
+                    {/* 添加介绍部分 */}
+                    <div className="mb-8">
+                        <Paragraph className="text-lg">
+                            Welcome to AI2Markdown, your comprehensive solution for all things Markdown. Whether you&apos;re a developer, writer, or content creator, our tools and guides help you master Markdown formatting with ease.
+                        </Paragraph>
+                        <Paragraph className="text-lg">
+                            Our free online converter transforms Markdown to clean, semantic HTML instantly. Plus, explore our growing collection of Markdown tutorials and best practices to enhance your documentation workflow.
+                        </Paragraph>
+                    </div>
 
-                    <Card
-                        className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-100 shadow-sm hover:shadow-md transition-shadow duration-300"
+                    {/* 保持现有的 Card 部分不变 */}
+                    <Card className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-100 shadow-sm hover:shadow-md transition-shadow duration-300"
                         bodyStyle={{ padding: '2rem' }}
                     >
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -67,7 +82,33 @@ export default function Home() {
                         </div>
                     </Card>
 
-                    {/* 添加问题列表部分 */}
+                    {/* 添加特性部分 */}
+                    <section className="mb-12">
+                        <Title level={2} className="flex items-center gap-2">
+                            <CheckCircleOutlined />
+                            Why Choose Our Markdown Convert Tools?
+                        </Title>
+                        <div className="grid md:grid-cols-2 gap-6 mt-6">
+                            <Card className="hover:shadow-md transition-shadow">
+                                <Title level={4}>Fast & Free Conversion</Title>
+                                <Text>Convert Markdown to HTML instantly with our optimized converter. No registration required.</Text>
+                            </Card>
+                            <Card className="hover:shadow-md transition-shadow">
+                                <Title level={4}>Clean HTML Output</Title>
+                                <Text>Get semantic, well-formatted HTML that&apos;s ready for web publishing.</Text>
+                            </Card>
+                            <Card className="hover:shadow-md transition-shadow">
+                                <Title level={4}>Privacy First</Title>
+                                <Text>Your content stays private. No storage, no tracking - just pure conversion.</Text>
+                            </Card>
+                            <Card className="hover:shadow-md transition-shadow">
+                                <Title level={4}>Developer Friendly</Title>
+                                <Text>Perfect for documentation, README files, and technical writing.</Text>
+                            </Card>
+                        </div>
+                    </section>
+
+                    {/* 扩展问题列表部分 */}
                     <section className="mt-12">
                         <Title level={2} className="flex items-center gap-2">
                             <QuestionCircleOutlined />
@@ -82,18 +123,71 @@ export default function Home() {
                                 <div className="flex justify-between items-center">
                                     <div>
                                         <Title level={3} className="!mb-2">
-                                            How to underline with markdown?
+                                            How to underline in markdown?
                                         </Title>
                                         <Text type="secondary">
-                                            Learn the key differences and advantages of these markup languages
+                                            Learn different ways to create underlined text in Markdown documents
                                         </Text>
                                     </div>
                                     <RightOutlined className="text-gray-400" />
                                 </div>
                             </Card>
+
+                            {/* <Card
+                                hoverable
+                                className="transition-all duration-300 hover:shadow-md"
+                                onClick={() => window.location.href = '/questions/tables-in-markdown'}
+                            >
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <Title level={3} className="!mb-2">
+                                            Creating Tables in Markdown
+                                        </Title>
+                                        <Text type="secondary">
+                                            Master the syntax for creating clean, organized tables in Markdown
+                                        </Text>
+                                    </div>
+                                    <RightOutlined className="text-gray-400" />
+                                </div>
+                            </Card>
+
+                            <Card
+                                hoverable
+                                className="transition-all duration-300 hover:shadow-md"
+                                onClick={() => window.location.href = '/questions/markdown-vs-html'}
+                            >
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <Title level={3} className="!mb-2">
+                                            Markdown vs HTML: When to Use Each
+                                        </Title>
+                                        <Text type="secondary">
+                                            Compare Markdown and HTML to choose the right format for your content
+                                        </Text>
+                                    </div>
+                                    <RightOutlined className="text-gray-400" />
+                                </div>
+                            </Card> */}
                         </div>
                     </section>
+
+                    {/* 添加 CTA 部分 */}
+                    {/* <section className="mt-12 mb-8">
+                        <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-100">
+                            <Title level={2}>Start Converting Your Markdown Today</Title>
+                            <Paragraph className="text-lg mb-6">
+                                Join thousands of developers and writers who trust our tools for their Markdown needs. Try our converter now and experience the difference.
+                            </Paragraph>
+                            <Link href="/markdown-to-html">
+                                <Button type="primary" size="large" icon={<EditOutlined />}>
+                                    Try Free Converter
+                                </Button>
+                            </Link>
+                        </Card>
+                    </section> */}
                 </Typography>
+
+                {/* 保持现有的 footer 不变 */}
             </div>
 
             <footer className="text-center text-gray-500 text-sm py-4 border-t border-gray-200 mt-auto">
