@@ -18,8 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const routeEntries = routes.map((route) => ({
         url: `${siteMetadata.siteUrl}${route}`,
         lastModified: currentDate,
-        changeFrequency: (route === '' || route === '/markdown-to-html') ? 'daily' : 'weekly' as 'daily' | 'weekly',
-        priority: (route === '' || route === '/markdown-to-html') ? 1.0 : 0.8,
+        changeFrequency: (route === '' || route === '/markdown-to-html' || '/questions/underline-in-markdown') ? 'daily' : 'weekly' as 'daily' | 'weekly',
+        priority: (route === '' || route === '/markdown-to-html' || '/questions/underline-in-markdown') ? 1.0 : 0.8,
     }));
 
     return [
