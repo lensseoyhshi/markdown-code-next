@@ -207,7 +207,7 @@ export default function Home() {
             <header className="text-center mb-8">
                 <h1 className="text-3xl font-bold mb-2">
                     <FileMarkdownOutlined className="mr-2" />
-                    AI-Powered Markdown to HTML Online Converter 
+                    AI-Powered Markdown to HTML Online Converter
                 </h1>
                 <p className="text-gray-600 mb-4">
                     Real-time Preview, File Upload Support, Free To Use, No Registration Required.
@@ -349,7 +349,7 @@ export default function Home() {
                     </Card>
                 </section>
 
-         
+
 
                 {/* Markdown 语法部分 */}
                 <section className="mt-8">
@@ -366,7 +366,7 @@ export default function Home() {
                                 <div className="bg-gray-50 p-4 rounded border font-mono">
 {`This is the first line. And this is the second line.`}
                                 </div>
-                                <div 
+                                <div
                                     className="bg-white p-4 rounded border prose prose-slate max-w-none"
                                     dangerouslySetInnerHTML={{
                                         __html: marked.parse(`<p>This is the first line.<br>
@@ -379,14 +379,14 @@ And this is the second line.</p>`)
                             <Paragraph>
                             While Markdown doesn&apos;t natively support underlines, you can use HTML&apos;s tag. Below is a bilingual example.
                             </Paragraph>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">  
-  <div className="bg-gray-50 p-4 rounded border font-mono">  
-    {`Use <u>HTML tags</u> in Markdown for underlines`}  
-  </div>  
-  <div className="bg-white p-4 rounded border prose prose-slate max-w-none">  
-    <p>Use <u>HTML tags</u> in Markdown for underlines</p>  
-  </div>  
-</div>  
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+  <div className="bg-gray-50 p-4 rounded border font-mono">
+    {`Use <u>HTML tags</u> in Markdown for underlines`}
+  </div>
+  <div className="bg-white p-4 rounded border prose prose-slate max-w-none">
+    <p>Use <u>HTML tags</u> in Markdown for underlines</p>
+  </div>
+</div>
 
                             <Title level={3} id="emphasis">Text Bold</Title>
                             <Paragraph>
@@ -403,7 +403,7 @@ __This is also bold__
 ***This text is bold and italic***
 **_This is also bold and italic_**`}
                                 </div>
-                                <div 
+                                <div
                                     className="bg-white p-4 rounded border prose prose-slate max-w-none"
                                     dangerouslySetInnerHTML={{
                                         __html: marked.parse(`*This text is italic*
@@ -422,26 +422,26 @@ __This is also bold__
                             <Paragraph>
                                 You can use --- to create a horizontal line on markdown.
                             </Paragraph>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">  
-  <div className="bg-gray-50 p-4 rounded border font-mono">  
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+  <div className="bg-gray-50 p-4 rounded border font-mono">
     {`First paragraph...  
 
 ---  
 
-Second paragraph below the line`}  
-  </div>  
-  <div className="bg-white p-4 rounded border prose prose-slate max-w-none">  
-    <p>First paragraph...</p>  
-    <hr/>  
-    <p>Second paragraph below the line</p>  
-  </div>  
-</div>  
+Second paragraph below the line`}
+  </div>
+  <div className="bg-white p-4 rounded border prose prose-slate max-w-none">
+    <p>First paragraph...</p>
+    <hr/>
+    <p>Second paragraph below the line</p>
+  </div>
+</div>
                         </div>
                     </Card>
                 </section>
 
 
-             
+
                        {/* FAQ部分 */}
                        <section className="mt-8">
                     <h2 className="text-2xl font-bold mb-4" id="faq">Frequently Asked Questions</h2>

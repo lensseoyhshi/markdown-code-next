@@ -27,15 +27,15 @@ export default function Home() {
         <div className="flex flex-col min-h-screen">
             <div className="container mx-auto p-4 max-w-4xl flex-grow">
                 {/* <BreadcrumbNav /> */}
-                
+
                 <Link href="/" className="flex items-center text-blue-500 mb-6 hover:underline">
                     <ArrowLeftOutlined className="mr-1"/> Back to Converter
                 </Link>
-    
+
                 <Typography>
                     <Title level={1}>Complete Markdown Guide</Title>
-                    
-                    <Card 
+
+                    <Card
                         className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-100 shadow-sm hover:shadow-md transition-shadow duration-300"
                         bodyStyle={{ padding: '2rem' }}
                     >
@@ -49,12 +49,12 @@ export default function Home() {
                                 </Text>
                             </div>
                             <Link href="/markdown-to-html">
-                                <Button 
-                                    type="primary" 
-                                    icon={<EditOutlined />} 
+                                <Button
+                                    type="primary"
+                                    icon={<EditOutlined />}
                                     size="large"
                                     className="min-w-[160px] h-12 text-base flex items-center justify-center font-medium hover:opacity-90"
-                                    style={{ 
+                                    style={{
                                         background: 'linear-gradient(to right, #2563eb, #3b82f6)',
                                         border: 'none',
                                         color: 'white',
@@ -74,8 +74,8 @@ export default function Home() {
                             Popular Markdown Questions
                         </Title>
                         <div className="space-y-4 mt-6">
-                            <Card 
-                                hoverable 
+                            <Card
+                                hoverable
                                 className="transition-all duration-300 hover:shadow-md"
                                 onClick={() => window.location.href = '/questions/underline-in-markdown'}
                             >
@@ -95,7 +95,7 @@ export default function Home() {
                     </section>
                 </Typography>
             </div>
-            
+
             <footer className="text-center text-gray-500 text-sm py-4 border-t border-gray-200 mt-auto">
                 <p>© {new Date().getFullYear()} AI2Markdown - Free Online Markdown to HTML Converter</p>
                 <p className="mt-1">
