@@ -33,13 +33,13 @@ export default function Home() {
                 </Link>
 
                 <Typography>
-                    <Title 
-                        level={1} 
+                    <Title
+                        level={1}
                         className="font-heading text-4xl font-bold tracking-tight text-gray-900 mb-6"
                     >
                         Markdown Converter Guide
                     </Title>
-                    
+
                     {/* 添加介绍部分 */}
                     <div className="mb-8">
                         <Paragraph className="text-lg">
@@ -132,19 +132,39 @@ export default function Home() {
                                     <RightOutlined className="text-gray-400" />
                                 </div>
                             </Card>
+                        
 
-                            {/* <Card
+                            {/* 添加 Bold in Markdown 问题卡片 */}
+                            <Card
                                 hoverable
                                 className="transition-all duration-300 hover:shadow-md"
-                                onClick={() => window.location.href = '/questions/tables-in-markdown'}
+                                onClick={() => window.location.href = '/questions/bold-in-markdown'}
                             >
                                 <div className="flex justify-between items-center">
                                     <div>
                                         <Title level={3} className="!mb-2">
-                                            Creating Tables in Markdown
+                                            How to bold in markdown?
                                         </Title>
                                         <Text type="secondary">
-                                            Master the syntax for creating clean, organized tables in Markdown
+                                            Learn how to make text bold in Markdown using different methods
+                                        </Text>
+                                    </div>
+                                    <RightOutlined className="text-gray-400" />
+                                </div>
+                            </Card>
+                             
+                             <Card
+                                hoverable
+                                className="transition-all duration-300 hover:shadow-md"
+                                onClick={() => window.location.href = '/questions/hide-sections-in-markdown'}
+                            >
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <Title level={3} className="!mb-2">
+                                            How to hide sections in markdown?
+                                        </Title>
+                                        <Text type="secondary">
+                                            Learn different ways to hide or collapse content in Markdown documents
                                         </Text>
                                     </div>
                                     <RightOutlined className="text-gray-400" />
@@ -154,20 +174,38 @@ export default function Home() {
                             <Card
                                 hoverable
                                 className="transition-all duration-300 hover:shadow-md"
-                                onClick={() => window.location.href = '/questions/markdown-vs-html'}
+                                onClick={() => window.location.href = '/questions/collapsible-list-in-markdown'}
                             >
                                 <div className="flex justify-between items-center">
                                     <div>
                                         <Title level={3} className="!mb-2">
-                                            Markdown vs HTML: When to Use Each
+                                            How to make a markdown box item collapsable?
                                         </Title>
                                         <Text type="secondary">
-                                            Compare Markdown and HTML to choose the right format for your content
+                                            Learn how to create collapsible list items and boxes in Markdown
                                         </Text>
                                     </div>
                                     <RightOutlined className="text-gray-400" />
                                 </div>
-                            </Card> */}
+                            </Card>
+
+                            <Card
+                                hoverable
+                                className="transition-all duration-300 hover:shadow-md"
+                                onClick={() => window.location.href = '/questions/collapsible-box-in-markdown'}
+                            >
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <Title level={3} className="!mb-2">
+                                            How to make box item collapsable in markdown?
+                                        </Title>
+                                        <Text type="secondary">
+                                            Learn how to create collapsible boxes and containers in Markdown
+                                        </Text>
+                                    </div>
+                                    <RightOutlined className="text-gray-400" />
+                                </div>
+                            </Card>
                         </div>
                     </section>
 
