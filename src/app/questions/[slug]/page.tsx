@@ -6,7 +6,7 @@ import { usePageLoading } from '@/hooks/usePageLoading';
 import { EditOutlined } from '@ant-design/icons';
 import ConverterCard from '@/components/ConverterCard';
 import { Metadata } from 'next';
-
+import {siteMetadata} from '@/config/base_metadata';
 const { Title, Paragraph, Text } = Typography;
 
 // 问题内容接口
@@ -15,12 +15,15 @@ interface QuestionContent {
     description: string;
     keywords: string;
     content: React.ReactNode;
+    alternates?: {
+        canonical: string;
+    };
 }
 
 // 添加 generateMetadata 函数
 // export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
 //     const question = questionsData[params.slug];
-    
+
 //     if (!question) {
 //         return {
 //             title: 'Question Not Found',
@@ -45,12 +48,15 @@ const questionsData: Record<string, QuestionContent> = {
         title: "How to underline in markdown?",
         description: 'Learn different ways to create underlined text in Markdown documents',
         keywords: '',
+        alternates: {
+            canonical: `${siteMetadata.siteUrl}/questions/underline-in-markdown`
+        },
         content: (
             <>
                 <Paragraph className="text-lg">
                     There are several methods to create underlined text in Markdown. Since native Markdown syntax doesn&apos;t directly support underlining, we need to use alternative approaches:
                 </Paragraph>
-                
+
                 <Title level={2}>Underlining Text in Markdown Using HTML Tags</Title>
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
@@ -88,11 +94,11 @@ const questionsData: Record<string, QuestionContent> = {
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
                         <li>
-                            <Text strong>Readability:</Text> 
+                            <Text strong>Readability:</Text>
                             Underlines are typically used to indicate links in web design. Excessive use may affect document readability
                         </li>
                         <li>
-                            <Text strong>Compatibility:</Text> 
+                            <Text strong>Compatibility:</Text>
                             HTML tag methods work in most Markdown editors, but some strict environments might filter HTML tags
                         </li>
                     </ul>
@@ -119,12 +125,15 @@ const questionsData: Record<string, QuestionContent> = {
         title: "How to bold in markdown?",
         description: 'Learn how to make text bold in Markdown using different methods',
         keywords: 'markdown bold, markdown strong text, markdown formatting',
+        alternates: {
+            canonical: `${siteMetadata.siteUrl}/questions/bold-in-markdown`
+        },
         content: (
             <>
                 <Paragraph className="text-lg">
                     Making text bold in Markdown is one of the most common formatting tasks. There are several ways to create bold text in Markdown:
                 </Paragraph>
-                
+
                 <Title level={2}>Standard Markdown Bold Syntax</Title>
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
@@ -169,15 +178,15 @@ const questionsData: Record<string, QuestionContent> = {
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
                         <li>
-                            <Text strong>Consistency:</Text> 
+                            <Text strong>Consistency:</Text>
                             Choose one method and stick to it throughout your document
                         </li>
                         <li>
-                            <Text strong>Semantic Usage:</Text> 
+                            <Text strong>Semantic Usage:</Text>
                             Use bold text to emphasize important points, not for decorative purposes
                         </li>
                         <li>
-                            <Text strong>Readability:</Text> 
+                            <Text strong>Readability:</Text>
                             Don&apos;t overuse bold text as it can make the document harder to read
                         </li>
                     </ul>
@@ -195,12 +204,15 @@ const questionsData: Record<string, QuestionContent> = {
         title: "How to hide sections in markdown?",
         description: 'Learn different ways to hide or collapse content in Markdown documents',
         keywords: 'markdown hide sections, markdown collapsible, markdown details, markdown spoiler',
+        alternates: {
+            canonical: `${siteMetadata.siteUrl}/questions/hide-sections-in-markdown`
+        },
         content: (
             <>
                 <Paragraph className="text-lg">
                     There are several ways to hide or collapse sections in Markdown documents. While pure Markdown doesn&apos;t have built-in hiding functionality, we can achieve this using HTML elements and special syntax:
                 </Paragraph>
-                
+
                 <Title level={2}>Using HTML Details Element</Title>
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
@@ -240,7 +252,7 @@ const questionsData: Record<string, QuestionContent> = {
                             <Text code>{`||Spoiler text||`}</Text> (GitHub Discussions)
                         </li>
                         <li>
-                            <Text strong>Discord Style:</Text> 
+                            <Text strong>Discord Style:</Text>
                             <br />
                             <Text code>{`||Hidden content||`}</Text> (Discord Markdown)
                         </li>
@@ -251,15 +263,15 @@ const questionsData: Record<string, QuestionContent> = {
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
                         <li>
-                            <Text strong>Compatibility:</Text> 
+                            <Text strong>Compatibility:</Text>
                             Check if your target platform supports the hiding method you choose
                         </li>
                         <li>
-                            <Text strong>Accessibility:</Text> 
+                            <Text strong>Accessibility:</Text>
                             Ensure hidden content is accessible to screen readers
                         </li>
                         <li>
-                            <Text strong>User Experience:</Text> 
+                            <Text strong>User Experience:</Text>
                             Provide clear indicators for expandable content
                         </li>
                     </ul>
@@ -277,12 +289,15 @@ const questionsData: Record<string, QuestionContent> = {
         title: "How to make a markdown box item collapsable?",
         description: 'Learn how to create collapsible list items and boxes in Markdown',
         keywords: 'markdown collapsible list, markdown dropdown, markdown accordion, markdown expandable',
+        alternates: {
+            canonical: `${siteMetadata.siteUrl}/questions/collapsible-list-in-markdown`
+        },
         content: (
             <>
                 <Paragraph className="text-lg">
                     Creating collapsible list items or boxes in Markdown can enhance document readability. Here are several methods to achieve this:
                 </Paragraph>
-                
+
                 <Title level={2}>Using HTML Details with Lists</Title>
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
@@ -376,15 +391,15 @@ const questionsData: Record<string, QuestionContent> = {
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
                         <li>
-                            <Text strong>Structure:</Text> 
+                            <Text strong>Structure:</Text>
                             Keep the hierarchy logical and not too deeply nested
                         </li>
                         <li>
-                            <Text strong>Summary Text:</Text> 
+                            <Text strong>Summary Text:</Text>
                             Use clear and descriptive summary text to indicate the content
                         </li>
                         <li>
-                            <Text strong>Formatting:</Text> 
+                            <Text strong>Formatting:</Text>
                             Maintain consistent indentation for nested content
                         </li>
                     </ul>
@@ -402,12 +417,15 @@ const questionsData: Record<string, QuestionContent> = {
         title: "How to make box item collapsable in markdown?",
         description: 'Learn how to create collapsible boxes and containers in Markdown',
         keywords: 'markdown collapsible box, markdown dropdown box, markdown container, markdown box styling',
+        alternates: {
+            canonical: `${siteMetadata.siteUrl}/questions/collapsible-box-in-markdown`
+        },
         content: (
             <>
                 <Paragraph className="text-lg">
                     Creating collapsible boxes in Markdown helps organize and present content effectively. Here are several methods to create collapsible boxes:
                 </Paragraph>
-                
+
                 <Title level={2}>Basic Collapsible Box</Title>
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
@@ -537,15 +555,15 @@ const questionsData: Record<string, QuestionContent> = {
                 <Paragraph>
                     <ul className="list-disc pl-6 space-y-2">
                         <li>
-                            <Text strong>Style Consistency:</Text> 
+                            <Text strong>Style Consistency:</Text>
                             Maintain consistent box styles throughout your document
                         </li>
                         <li>
-                            <Text strong>Content Organization:</Text> 
+                            <Text strong>Content Organization:</Text>
                             Use appropriate box types for different content categories
                         </li>
                         <li>
-                            <Text strong>Accessibility:</Text> 
+                            <Text strong>Accessibility:</Text>
                             Ensure proper color contrast for better readability
                         </li>
                     </ul>
